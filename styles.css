@@ -85,6 +85,7 @@ highlight_button {
   text-align: center;
   text-decoration: none;
   display: inline-block;
+  border-radius: 8px;
   font-size: 16px;
  /* box-sizing: border-box;  Accounts for padding within the width */
 }

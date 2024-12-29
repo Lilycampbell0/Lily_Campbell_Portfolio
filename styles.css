@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  margin: 0;
+  margin: 10px;
   padding: 20px; /* Adds space between the body content and the screen edge */
   box-sizing: border-box; /* Ensures padding doesn't affect the overall width/height */
 }

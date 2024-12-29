@@ -11,6 +11,8 @@ header {
   color: white;
   padding: 10px 0;
   text-align: center;
+  width: 100%; /* Ensures the header spans the full width */
+  box-sizing: border-box; /* Accounts for padding within the width */
 }
 
 nav ul {
@@ -20,6 +22,7 @@ nav ul {
   display: flex;
   justify-content: center;
   background-color: DarkSlatedGray;  /*color of the bar with the buttons*/
+  flex-wrap: wrap; /* Allows items to wrap on smaller screens */
 }
 
 nav ul li {
@@ -35,6 +38,21 @@ nav ul li a {
 
 nav ul li a:hover {
   background-color: #555; /*color when you mouse over a button*/
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 10px; /* Reduce padding on smaller screens */
+  }
+
+  nav ul {
+    flex-direction: column; /* Stack navigation links vertically */
+    align-items: center;
+  }
+
+  nav ul li {
+    margin: 5px 0;
+  }
 }
 
 /*

@@ -97,6 +97,6 @@ highlight_button a {
   display: block;
 }
 
-highlight_button a:hover {
+highlight_button:hover {
   background-color: #b3cccc; /*color when you mouse over a button*/
 }

@@ -19,32 +19,39 @@
     </nav>
   </header>
   <main>
-    <h2> Project Goal: </h2> 
+    <h2>   Project Goal: </h2> 
     <p>Classify images of cars by brand, and determine whether a CNN or ViT model performs better on this task</p>
-    <h2> Applications: </h2> 
+    <h2>   Applications: </h2> 
       <ul> 
         <li>Law enforcement - Many scenarios when license plates are not visible or not readable to a camera, but information around car type would be useful </li>
         <li>Finding lost cars - Could be helpful for drones to identify missing or stolen parked cars </li>
       </ul>
 
-     <h2> Key Literature</h2> 
+     <h2>   Key Literature</h2> 
     <dl>
       <dt>An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale, by Dosovitskiy et al., ICLR 2021</dt>
         <dd>- “Vision Transformer (ViT) attains excellent results compared to state-of-the-art convolutional networks while requiring substantially fewer computational resources to train”</dd>
       <dt>A Convnet for the 2020s, Liu et al., Conference on Computer Vision and Pattern Recognition 2022</dt>
         <dd>- “Surprisingly, ConvNeXts, constructed entirely from standard ConvNet modules, compete favorably with Transformers in terms of accuracy, scalability and robustness across all major benchmarks.”</dd>
     </dl>
-   <h2>  Dataset: </h2> 
+   <h2>    Dataset: </h2> 
       <p> 1,000 images scraped from google for 8 car brands, then limited to images that are at least 4 KB to filter out low quality or unapplicable images from the scrape. </p>
 
-  <h2> Modeling Approach: </h2>
+    <img src="img_cars.jpg" alt="images of cars from project" width="1100" height="200">
+    
+  <h2>   Modeling Approach: </h2>
     <ol>
     <li> CNN and ViT without transfer learning to serve as baselines for comparison </li>
     <li> CNN with transfer learning using the Inception ResNet V2 pre-trained model </li>
     <li> Vision Transformer with transfer learning using Google’s pretrained VIT model (google/vit-base-patch16-224) </li>
     </ol>
-
-    <img src="img_cars.jpg" alt="images of cars from project" width="1000" height="300">
+<h2> Results: </h2>
+   <ul>  
+     <li> ViT with transfer learning: 76% Test Accuracy </li>
+     <li> CNN with transfer learning: 75% Test Accuracy </li>
+     <li> CNN without transfer learning: 24% Test Accuracy </li>
+   </ul>  
+    
   </main>
 </body>
 </html>

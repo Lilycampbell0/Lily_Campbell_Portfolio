@@ -34,6 +34,17 @@
       <dt>A Convnet for the 2020s, Liu et al., Conference on Computer Vision and Pattern Recognition 2022</dt>
         <dd>- “Surprisingly, ConvNeXts, constructed entirely from standard ConvNet modules, compete favorably with Transformers in terms of accuracy, scalability and robustness across all major benchmarks.”</dd>
     </dl>
+   <h2>  Dataset: </h2> 
+      <p> 1,000 images scraped from google for 8 car brands, then limited to images that are at least 4 KB to filter out low quality or unapplicable images from the scrape. </p>
+
+  <h2> Modeling Approach: </h2>
+    <ol>
+    <li> CNN and ViT without transfer learning to serve as baselines for comparison </li>
+    <li> CNN with transfer learning using the Inception ResNet V2 pre-trained model </li>
+    <li> Vision Transformer with transfer learning using Google’s pretrained VIT model (google/vit-base-patch16-224) </li>
+    </ol>
+
+    <img src="img_cars.jpg" alt="images of cars from project">
   </main>
 </body>
 </html>

@@ -76,4 +76,16 @@ p.thick {
   font-weight: bold;
 }
 
+/*Buttons for highlighted projects*/
+highlight_button {
+  background-color: DarkSlateGray;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+ /* box-sizing: border-box;  Accounts for padding within the width */
+}
 

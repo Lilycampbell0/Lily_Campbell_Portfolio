@@ -6,7 +6,7 @@ body {
 
 header {
  /* background-color: #333;*/
-  background-color: #2F4F4F;
+  background-color: DarkSlateGray;
   color: white;
   padding: 10px 0;
   text-align: center;
@@ -18,8 +18,7 @@ nav ul {
   margin: 0;
   display: flex;
   justify-content: center;
- /* background-color: #444;*/
-  background-color: #2F4F4F;
+  background-color: #444;
 }
 
 nav ul li {
@@ -34,7 +33,6 @@ nav ul li a {
 }
 
 nav ul li a:hover {
- /* background-color: #555;*/
-  background-color: #2F4F4F;
+  background-color: #555;
 }
 

@@ -91,7 +91,7 @@ highlight_button {
 }
 
 highlight_button a {
-  color: DarkSlateGray
+  color: DarkSlateGray;
   text-decoration: none;
   padding: 10px 15px;
   display: block;

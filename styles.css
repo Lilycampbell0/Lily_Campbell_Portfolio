@@ -19,7 +19,7 @@ nav ul {
   margin: 0;
   display: flex;
   justify-content: center;
-  background-color: DarkSlateGray;  /*color of the bar with the buttons*/
+  background-color: DarkCyan;  /*color of the bar with the buttons*/
 }
 
 nav ul li {

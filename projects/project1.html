@@ -59,6 +59,7 @@ This suggests that ViT models may be a viable alternative to CNNs for the task o
 </p>
 
 <h2> Key Code Sections </h2>
+    
   <head>
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
@@ -74,10 +75,131 @@ import os
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.preprocessing import LabelEncoder
+from PIL import Image
+import cv2
+
+#Utilize tensorflow for initial model exploration
+from tensorflow.keras.preprocessing import image
+import tensorflow as tf
+import tensorflow_datasets as tfds
+
+import keras
+from keras import models, layers
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, BatchNormalization
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.utils import to_categorical
+
+import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, Dataset
+from torchvision import transforms
+from transformers import ViTForImageClassification, ViTFeatureExtractor
  </code></pre>
 </body>
 
-    
+<head>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+<pre><code class="python">
+# Define custom dataset
+class CarBrandDataset(Dataset):
+    def __init__(self, images, labels, transform=None):
+        self.images = images
+        self.labels = labels
+        self.transform = transform
+
+    def __len__(self):
+        return len(self.images)
+
+    def __getitem__(self, idx):
+        image = self.images[idx]
+        label = self.labels[idx]
+        if self.transform:
+            image = self.transform(image)
+        return image, label
+
+# Add preprocessing transforms
+feature_extractor = ViTFeatureExtractor.from_pretrained('google/vit-base-patch16-224-in21k')
+transform = transforms.Compose([
+    transforms.ToPILImage(),
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=feature_extractor.image_mean, std=feature_extractor.image_std),
+])
+
+# Encode labels
+label_encoder = LabelEncoder()
+y_train_encoded = label_encoder.fit_transform(y_train)
+y_val_encoded = label_encoder.transform(y_val)
+y_test_encoded = label_encoder.transform(y_test)
+
+# Create datasets and dataloaders
+train_dataset = CarBrandDataset(X_train, y_train_encoded, transform=transform)
+val_dataset = CarBrandDataset(X_val, y_val_encoded, transform=transform)
+test_dataset = CarBrandDataset(X_test, y_test_encoded, transform=transform)
+
+train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
+test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
+
+# Load pre-trained ViT model
+model = ViTForImageClassification.from_pretrained(
+    'google/vit-base-patch16-224-in21k',
+    num_labels=len(label_encoder.classes_)
+)
+model.to(device)
+
+# Loss and optimizer
+criterion = nn.CrossEntropyLoss()
+optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4)
+
+# Training loop
+train_accuracies, val_accuracies, gflops_per_epoch = [], [], []
+
+def train_model(model, train_loader, val_loader, epochs=10):
+    for epoch in range(epochs):
+        model.train()
+        correct_train, total_train = 0, 0
+        for images, labels in train_loader:
+            images, labels = images.to(device), labels.to(device)
+            optimizer.zero_grad()
+            outputs = model(images).logits
+            loss = criterion(outputs, labels)
+            loss.backward()
+            optimizer.step()
+
+            _, predicted = torch.max(outputs, 1)
+            correct_train += (predicted == labels).sum().item()
+            total_train += labels.size(0)
+
+        train_accuracy = correct_train / total_train
+        train_accuracies.append(train_accuracy)
+
+        # Validation
+        model.eval()
+        correct_val, total_val = 0, 0
+        with torch.no_grad():
+            for images, labels in val_loader:
+                images, labels = images.to(device), labels.to(device)
+                outputs = model(images).logits
+                _, predicted = torch.max(outputs, 1)
+                correct_val += (predicted == labels).sum().item()
+                total_val += labels.size(0)
+        val_accuracy = correct_val / total_val
+        val_accuracies.append(val_accuracy)
+        print(f"Epoch {epoch+1}/{epochs}, Train Accuracy: {train_accuracy:.4f}, "
+              f"Val Accuracy: {val_accuracy:.4f}, Total GFLOPs: {gflops:.2f}")
+# Train the model
+train_model(model, train_loader, val_loader, epochs=10)
+
+</code></pre>
+</body>
+  
     
 <highlight_button> 
   <a href="vit_cnn_files/cnn_vit_car_brand_classification.html"> Full Code for This Project </a>

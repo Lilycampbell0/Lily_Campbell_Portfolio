@@ -42,15 +42,13 @@ img {
   float: left;
   margin-right: 10px; 
 }
-
-p {
-  overflow: hidden; 
-}
 */
+
 /*make some images float tpo the right*/
 .myImage {
   float: left;
   font-family: Veranda;
+   margin-right: 10px; 
 }
 
 p.thick {

@@ -19,7 +19,7 @@ nav ul {
   margin: 0;
   display: flex;
   justify-content: center;
-  background-color: DarkCyan;  /*color of the bar with the buttons*/
+  background-color: DarkSlatedGray;  /*color of the bar with the buttons*/
 }
 
 nav ul li {
@@ -50,8 +50,6 @@ p {
 /*make some images float tpo the right*/
 .myImage {
   float: left;
-  height: 75px;
-  width: 235px;
   font-family: Veranda;
 }
 .heading {

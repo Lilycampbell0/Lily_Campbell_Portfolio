@@ -55,12 +55,15 @@ nav ul li a:hover {
   }
 }
 
-/*
-img {
-  float: left;
-  margin-right: 10px; 
+/* fit images for mobile view*/
+
+  img {
+    max-width: 100%;
+    min-width: 300px;
+    height: auto;
 }
-*/
+
+
 
 /*make some images float tpo the right*/
 .myImage {

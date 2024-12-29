@@ -79,15 +79,15 @@ p.thick {
 /*Buttons for highlighted projects*/
 highlight_button {
   background-color: #f0f5f5;
-  border: none;
-  color: DarkSlateGray;
+  border: DarkSlateGray;
+ /* color: DarkSlateGray;*/
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   border-radius: 8px;
   font-size: 16px;
- /* box-sizing: border-box;  Accounts for padding within the width */
+  box-sizing: border-box;  /* Accounts for padding within the width */
 }
 
 highlight_button a {

@@ -90,3 +90,10 @@ highlight_button {
  /* box-sizing: border-box;  Accounts for padding within the width */
 }
 
+highlight_button a {
+  color: DarkSlateGray
+  text-decoration: none;
+  padding: 10px 15px;
+  display: block;
+}
+

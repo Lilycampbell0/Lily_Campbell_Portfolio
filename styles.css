@@ -48,13 +48,11 @@ img {
 .myImage {
   float: left;
   font-family: Veranda;
-   margin-right: 60px; 
+   margin-right: 30px; 
 }
 
 p.thick {
   font-weight: bold;
 }
 
-.paragraph1 {
-    margin-right: 10px;
-}
+

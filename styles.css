@@ -7,7 +7,7 @@ body {
 
 header {
  /* background-color: #333;*/
-  background-color: DarkSlateGray;
+  background-color: DarkSlateGray; /*color of the main header area*/
   color: white;
   padding: 10px 0;
   text-align: center;
@@ -19,8 +19,7 @@ nav ul {
   margin: 0;
   display: flex;
   justify-content: center;
-  /*background-color: #444; */
-  background-color: DarkSlateGray; 
+  background-color: DarkSlateGray;  /*color of the bar with the buttons*/
 }
 
 nav ul li {
@@ -35,7 +34,6 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-  background-color: #555; 
-/*  background-color: DarkSlateGray; *//*color when you mouse over a button*/
+  background-color: #555; /*color when you mouse over a button*/
 }
 

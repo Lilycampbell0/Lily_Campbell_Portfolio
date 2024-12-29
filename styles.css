@@ -78,9 +78,9 @@ p.thick {
 
 /*Buttons for highlighted projects*/
 highlight_button {
-  background-color: DarkSlateGray;
+  background-color: Azure;
   border: none;
-  color: white;
+  color: DarkSlateGray;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;

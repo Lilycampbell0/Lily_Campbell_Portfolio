@@ -86,18 +86,82 @@ import tensorflow_datasets as tfds
 import keras
 from keras import models, layers
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, BatchNormalization
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, BatchNormalization, GlobalAveragePooling2D
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.applications import InceptionResNetV2
+from tensorflow.keras.models import Model
 
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
 from transformers import ViTForImageClassification, ViTFeatureExtractor
+
  </code></pre>
 </body>
 
+<h3> CNN with transfer learning</h3>   
+<head>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+<pre><code class="python">
+  # Split data into training and validation sets
+X_train, X_val1, y_train, y_val1 = train_test_split(X_resized, y_one_hot, test_size=0.3, random_state=42)
+X_val, X_test, y_val, y_test = train_test_split(X_val1, y_val1, test_size=0.3, random_state=42)
+
+# Load InceptionResNetV2 pre-trained model
+base_model = InceptionResNetV2(weights='imagenet', include_top=False, input_shape=(299, 299, 3))
+
+# Freeze the base model layers
+base_model.trainable = False
+
+# Add custom classification layers
+x = base_model.output
+x = GlobalAveragePooling2D()(x)
+x = Dense(1024, activation='relu')(x)
+x = Dropout(0.7)(x)  # Dropout for regularization
+predictions = Dense(num_classes, activation='softmax')(x)
+
+# Combine base model and custom layers into one model
+model = Model(inputs=base_model.input, outputs=predictions)
+
+# Compile the model
+model.compile(optimizer=Adam(learning_rate=0.00008),
+              loss='categorical_crossentropy',
+              metrics=['accuracy'])
+
+# Train the model
+history = model.fit(
+    X_train, y_train,
+    validation_data=(X_val, y_val),
+    batch_size=8,
+    epochs=15
+)
+
+# Fine-tuning (unfreeze the base model for further training)
+base_model.trainable = True
+fine_tune_lr = 1e-5
+model.compile(optimizer=Adam(learning_rate=fine_tune_lr),
+              loss='categorical_crossentropy',
+              metrics=['accuracy'])
+
+# Retrain the model
+history_fine = model.fit(
+    X_train, y_train,
+    validation_data=(X_val, y_val),
+    batch_size=8,
+    epochs=15  # Additional fine-tuning epochs
+)
+
+</code></pre>
+</body>
+
+ <h3> ViT with transfer learning</h3>   
 <head>
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
@@ -196,10 +260,10 @@ def train_model(model, train_loader, val_loader, epochs=10):
               f"Val Accuracy: {val_accuracy:.4f}, Total GFLOPs: {gflops:.2f}")
 # Train the model
 train_model(model, train_loader, val_loader, epochs=10)
-
 </code></pre>
 </body>
-  
+
+
     
 <highlight_button> 
   <a href="vit_cnn_files/cnn_vit_car_brand_classification.html"> Full Code for This Project </a>

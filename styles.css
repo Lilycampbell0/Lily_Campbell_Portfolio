@@ -47,3 +47,13 @@ p {
   overflow: hidden; 
 }
 */
+/*make some images float tpo the right*/
+.myImage {
+  float: left;
+  height: 75px;
+  width: 235px;
+  font-family: Veranda;
+}
+.heading {
+  float:right;
+}

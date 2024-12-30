@@ -36,7 +36,7 @@
         To determine if there was a significant shift in prices between Q3 2020 and Q4 2020 I utilized a categorical variable that represents the quarter in which a home was purchased for every quarter between Q1 2016 – Q4 2020.
         By setting the reference level to Q3 2020, the model reports the size of the change in price level between each quarter and Q3 2020. </p>
     
- <img src="home_price_reg_files/house_regression_bar.jpg" alt="house price by neighborhood" width="300" height="900"  >    
+ <img src="home_price_reg_files/house_regression_bar.jpg" alt="house price by neighborhood" width="500" height="900"  >    
     
 <h2> Key Findings:</h2>
     <p> This model explains 70% of the variation in home purchase price from Q1 2016- Q4 2020 (adjusted R^2 value of 0.70). The omnibus F test confirms that the explanatory power of the predictors is unlikely to be found through chance alone with significance at the 0.05 level.
@@ -84,7 +84,6 @@ library(lubridate)
 neighborhoods <- fcd2_p10k %>% group_by(neighborhood) %>% 
   summarise(median_price = median(price, na.rm = TRUE))
 
-
 quantiles <- quantile(neighborhoods$median_price, probs = seq(0, 1, by = 0.1))
 quintiles <- quantile(neighborhoods$median_price, probs = seq(0, 1, by = 0.2))
 # Assign each value to a quantile
@@ -100,7 +99,23 @@ quantile_info$quantile <- factor(quantile_info$quantile, levels = c("1", "2", "3
 </code></pre>
 </body>
     
-    
+            <head>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+  <pre><code class="R">
+str(df_grp)
+model9 = lm(price~grosssqft+yrbuilt+quantile+year_quarter+bld_cat_1*grosssqft+quantile*grosssqft,df_grp)
+summary(model9)
+plot(model9$fitted.values,model9$residuals)
+ks.test(model9$residuals/summary(model9)$sigma,pnorm)
+hist(model9$residuals)
+bptest(model9)
+    </code></pre>
+</body>
     
   </main>
 </body>

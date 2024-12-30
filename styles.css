@@ -37,9 +37,12 @@ nav ul li a {
   display: block;
 }
 
+/*color when you mouse over a button*/
+/*
 nav ul li a:hover {
-  background-color: #555; /*color when you mouse over a button*/
+  background-color: #555; 
 }
+*/
 
 .dropdown-content {
   display: none; /* Initially hidden */

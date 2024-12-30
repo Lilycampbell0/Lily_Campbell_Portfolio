@@ -36,7 +36,7 @@
         To determine if there was a significant shift in prices between Q3 2020 and Q4 2020 I utilized a categorical variable that represents the quarter in which a home was purchased for every quarter between Q1 2016 – Q4 2020.
         By setting the reference level to Q3 2020, the model reports the size of the change in price level between each quarter and Q3 2020. </p>
     
- <img src="home_price_reg_files/house_regression_bar.jpg" alt="house price by neighborhood" width="400" height="800"  >    
+ <img src="home_price_reg_files/house_regression_bar.jpg" alt="house price by neighborhood" width="300" height="900"  >    
     
 <h2> Key Findings:</h2>
     <p> This model explains 70% of the variation in home purchase price from Q1 2016- Q4 2020 (adjusted R^2 value of 0.70). The omnibus F test confirms that the explanatory power of the predictors is unlikely to be found through chance alone with significance at the 0.05 level.
@@ -51,7 +51,8 @@
     <p> Based on the model selected, there is evidence that the covid pandemic had a mild but significant negative impact on home purchase price in Brooklyn. The estimated levels of home price both before and after 2020 Q3 were higher, however the estimated difference in price was much greater between Q3 2020 and Q4 2020 than between Q2 2020 and Q1 2020. The estimated effect of a home being sold in Q4 2020 instead of in Q3 2020 is approximately $169k. As stated previously, because the necessary assumptions for linear regression of IID Normal residuals are not met, it is important not place too much confidence in this estimate.
       Instead, I recommend placing emphasis on the slight negative effect of being sold in Q3 2020 had on home purchase price in Brooklyn (or conversely that if a home was sold in Q4 2020, the home purchase price is expected to be higher). </p>
   
-  
+<h2> Key Code Sections: </h2>  
+    
   </main>
 </body>
 </html>

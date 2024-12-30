@@ -38,6 +38,10 @@
     <h2> Key Findings:</h2>
     <p> This model explains 70% of the variation in home purchase price from Q1 2016- Q4 2020 (adjusted R^2 value of 0.70). The omnibus F test confirms that the explanatory power of the predictors is unlikely to be found through chance alone with significance at the 0.05 level. The Residual Mean Squared Error of this model is $493K. While this is fairly high to predict the exact sale price of a home, the model still allows us to observe the overall directional trends in the market.
 </p>
+
+    <img src="home_price_reg_files/house_regression_bar.jpg" alt="chouse price by neighborhood" width="300" height="700"  >    
+
+    
     <h2> Limitations: </h2>
     <p> When considering efficacy of this model, I examined the distribution and normality of the residuals. 
       The Kolmogorov Smirnov test for normality provides evidence that there may be significant non-normality of the residuals. In addition, a Breusch-Pagan on this model shows significant evidence of heteroskedasticity in the residuals, and the Durbin Watson test shows significant signs of autocorrelation. Although I tried both square root and logarithmic transformations of my target and predictor variables, I was not successful in achieving statistically significant IID normality of the residuals. While this result gives reason for caution when relying on the reported significance of the estimates, the model can still give insight into the directional impact of the covid pandemic. As such, I will primarily be basing my conclusions on the direction indicated by the estimated coefficients on my predictors. </p>

@@ -68,6 +68,7 @@ nav ul li a:hover {
 /* Show Dropdown on Hover */
 .dropdown:hover .dropdown-content {
   display: block; /* Show when the parent is hovered */
+  background-color: #555; 
 }
 
 @media (max-width: 600px) {

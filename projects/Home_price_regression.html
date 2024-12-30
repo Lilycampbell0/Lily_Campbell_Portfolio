@@ -36,15 +36,17 @@
 </p>
 
     <h2> Key Findings:</h2>
-    <p> Model:
-\Biggm Purchase\ Price=\beta_1+\beta_2Gross\ Sqft+\beta_3YearBuilt+\beta_4Quarter
-+\beta_{5...14}\mathbb{l}{Neighborhood\ Groups\ 1-10}{+\ \beta}_{15,\ \ 16}\mathbb{l}{Condo/Single\ Family\ Home}
-+\beta_{17...26}\left(Gross\ sqft\ast\mathbb{l}{Neighborhood\ Groups1-10}\right)
-+\beta_{27,\ 28}(Gross\ sqft\ast\mathbb{l}{Condo/Single\ Family\ Home})
-
-This model explains 70% of the variation in home purchase price from Q1 2016- Q4 2020 (adjusted R^2 value of 0.70). The omnibus F test confirms that the explanatory power of the predictors is unlikely to be found through chance alone with significance at the 0.05 level. The Residual Mean Squared Error of this model is $493K. While this is fairly high to predict the exact sale price of a home, the model still allows us to observe the overall directional trends in the market.
+    <p> This model explains 70% of the variation in home purchase price from Q1 2016- Q4 2020 (adjusted R^2 value of 0.70). The omnibus F test confirms that the explanatory power of the predictors is unlikely to be found through chance alone with significance at the 0.05 level. The Residual Mean Squared Error of this model is $493K. While this is fairly high to predict the exact sale price of a home, the model still allows us to observe the overall directional trends in the market.
 </p>
-    
+    <h2> Limitations: </h2>
+    <p> When considering efficacy of this model, I examined the distribution and normality of the residuals. 
+      The Kolmogorov Smirnov test for normality provides evidence that there may be significant non-normality of the residuals. In addition, a Breusch-Pagan on this model shows significant evidence of heteroskedasticity in the residuals, and the Durbin Watson test shows significant signs of autocorrelation. Although I tried both square root and logarithmic transformations of my target and predictor variables, I was not successful in achieving statistically significant IID normality of the residuals. While this result gives reason for caution when relying on the reported significance of the estimates, the model can still give insight into the directional impact of the covid pandemic. As such, I will primarily be basing my conclusions on the direction indicated by the estimated coefficients on my predictors. </p>
+ 
+  <h2> Results: </h2>
+    <p> Based on the model selected, there is evidence that the covid pandemic had a mild but significant negative impact on home purchase price in Brooklyn. The estimated levels of home price both before and after 2020 Q3 were higher, however the estimated difference in price was much greater between Q3 2020 and Q4 2020 than between Q2 2020 and Q1 2020. The estimated effect of a home being sold in Q4 2020 instead of in Q3 2020 is approximately $169k. As stated previously, because the necessary assumptions for linear regression of IID Normal residuals are not met, it is important not place too much confidence in this estimate.
+      Instead, I recommend placing emphasis on the slight negative effect of being sold in Q3 2020 had on home purchase price in Brooklyn (or conversely that if a home was sold in Q4 2020, the home purchase price is expected to be higher). </p>
+  
+  
   </main>
 </body>
 </html>

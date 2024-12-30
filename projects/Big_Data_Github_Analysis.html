@@ -57,7 +57,28 @@
 </head>
 <body>
   <pre><code class="python">
+import pandas as pd
+import numpy as np
+from itertools import compress 
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+import seaborn as sns
+import matplotlib.pyplot as plt
 
+import re
+from pyspark.ml.feature import MinHashLSH
+from pyspark.ml.feature import CountVectorizer,  IDF, CountVectorizerModel, Tokenizer, RegexTokenizer, StopWordsRemover
+from pyspark.ml.feature import StopWordsRemover # PySpark currently does not directly support automatic stop word lists for languages other than English
+from pyspark import SparkContext
+from pyspark.sql import SQLContext
+from pyspark.sql import Row
+import pyspark.sql.functions as F
+
+from google.cloud import storage
+import time
+from pyspark.ml.linalg import Vectors   
+ </code></pre>
+</body>
     
 
   </main>

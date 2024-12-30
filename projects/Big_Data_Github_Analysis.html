@@ -181,9 +181,30 @@ model = mh.fit(df_vectorize)
 
 df_hashed_text = mh.fit(df_vectorize).transform(df_vectorize).cache()
         </code></pre>
-</body> 
+</body>
+    
+<head>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+  <pre><code class="python">
+jaccard_distance = 0.3
+df_dups_text = model.approxSimilarityJoin(df_hashed_text, df_hashed_text, jaccard_distance).filter("datasetA.id < datasetB.id").select(
+            col("distCol"),
+             col("datasetA.id").alias("id_A"),
+            col("datasetB.id").alias("id_B"),
+            col('datasetA.message').alias('text_A'),
+            col('datasetB.message').alias('text_B'))
 
+records = df_hashed_text.count()
+dups = df_dups_text.select('id_A').distinct().count()
+uniques = records - dups
 
+</code></pre>
+</body>
     
   </main>
 </body>

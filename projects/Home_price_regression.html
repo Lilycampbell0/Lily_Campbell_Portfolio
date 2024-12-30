@@ -60,8 +60,46 @@
   <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <body>
-  <pre><code class="python">
+  <pre><code class="R">
+library(dplyr)
+library(stringr)
+library(readr)
+library(lmtest)
+library(ggplot2)
+library(scales)
+library(lubridate)
+    
+</code></pre>
+</body>
 
+        <head>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+  <pre><code class="R">
+#find median price for each neighborhood then group by quantile categorically
+neighborhoods <- fcd2_p10k %>% group_by(neighborhood) %>% 
+  summarise(median_price = median(price, na.rm = TRUE))
+
+
+quantiles <- quantile(neighborhoods$median_price, probs = seq(0, 1, by = 0.1))
+quintiles <- quantile(neighborhoods$median_price, probs = seq(0, 1, by = 0.2))
+# Assign each value to a quantile
+neighborhoods$quantile <- cut(neighborhoods$median_price, breaks = quantiles, include.lowest = TRUE, labels = FALSE)
+neighborhoods$quintile <- cut(neighborhoods$median_price, breaks = quintiles, include.lowest = TRUE, labels = FALSE)
+df_grp <- merge(fcd2_p10k, neighborhoods, by = "neighborhood", all.x = TRUE)
+df_grp$quantile<-as.character(df_grp$quantile)
+df_grp$quintile<-as.character(df_grp$quintile)
+
+quantile_info <- df_grp %>% group_by(quantile) %>% 
+  summarise(median_price = median(price, na.rm = TRUE))
+quantile_info$quantile <- factor(quantile_info$quantile, levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
+</code></pre>
+</body>
+    
     
     
   </main>

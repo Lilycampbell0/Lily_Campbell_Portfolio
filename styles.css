@@ -26,6 +26,7 @@ nav ul {
 }
 
 nav ul li {
+  position: relative; /* Necessary for dropdown positioning */
   margin: 0 10px;
 }
 
@@ -37,7 +38,33 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-  background-color: #555; /*color when you mouse over a button*/
+  background-color:#555; /*color when you mouse over a button*/
+}
+
+.dropdown-content {
+  display: none; /* Initially hidden */
+  position: absolute;
+  top: 100%; /* Position below the parent link */
+  left: 0;
+  background-color: DarkSlateGray;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  min-width: 150px;
+  z-index: 1;
+}
+
+.dropdown-content li a {
+  padding: 10px 15px;
+}
+
+.dropdown-content li a:hover {
+  background-color: #f0f5f5;
+}
+
+/* Show Dropdown on Hover */
+.dropdown:hover .dropdown-content {
+  display: block; /* Show when the parent is hovered */
 }
 
 @media (max-width: 600px) {

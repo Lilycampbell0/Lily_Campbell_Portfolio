@@ -38,7 +38,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-  background-color:#555; /*color when you mouse over a button*/
+  background-color: #555; /*color when you mouse over a button*/
 }
 
 .dropdown-content {
@@ -59,7 +59,7 @@ nav ul li a:hover {
 }
 
 .dropdown-content li a:hover {
-  background-color: #f0f5f5;
+  background-color: #555;
 }
 
 /* Show Dropdown on Hover */

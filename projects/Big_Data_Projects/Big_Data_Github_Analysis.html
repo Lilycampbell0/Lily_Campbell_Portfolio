@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="../styles.css">
   <title> Analysis of Github Content Overtime with NLP and Spark </title>
 </head>
+  
 <body>
   <header>
     <h1>Analysis of Github Content Overtime with NLP and Spark </h1>
@@ -128,9 +129,7 @@ conf = pyspark.SparkConf().setAll([
                                    ('spark.cores.max','48'),  \
                                    ('spark.executor.memory', '11G'),  \
                                    ('spark.serializer', 'org.apache.spark.serializer.KryoSerializer'),  \
-                                  # ('spark.kryoserializer.buffer.max.mb', '800m'),  \
-                                   ('spark.kryoserializer.buffer.max', '800m'),  \
-                                  # ('spark.kryoserializer.buffer.max', '256m'),  
+                                   ('spark.kryoserializer.buffer.max', '800m'),  \ 
                                    ('spark.driver.cores', '7'),  \
                                    ('spark.sql.broadcastTimeout', '800'),\
                                    ('spark.executor.memoryOverhead', '800')

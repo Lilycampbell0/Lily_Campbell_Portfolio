@@ -62,13 +62,13 @@ nav ul li a:hover {
 }
 
 .dropdown-content li a:hover {
-  background-color: DarkSlateGray;
+  background-color: #555;
 }
 
 /* Show Dropdown on Hover */
 .dropdown:hover .dropdown-content {
   display: block; /* Show when the parent is hovered */
-  background-color: #555; 
+  background-color:  DarkSlateGray;
 }
 
 @media (max-width: 600px) {

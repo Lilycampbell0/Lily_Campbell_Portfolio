@@ -51,18 +51,18 @@
 
   <main>
    <h2> Project Goals: </h2>
-    <p> Analyze the content of all public Github repositories overtime to learn about trends in programming.
+    <p> Analyze the content of all public Github repositories over time to learn about trends in programming.
       This project utilizes techniques in natural language processing, spark, and cloud computing. </p>
 
 <h2> Dataset: </h2>
-    <p> All Repositories publicly published on Guthub between 2008-2022</p>
+    <p> All Repositories publicly published on Github between 2008-2022</p>
     
 <img src="big_data_files/commits_yr.jpg" alt="committs by yr" width="500" height="900"  >    
     
 <h2> Modeling Approach:</h2>
    <ul> 
      <li> Data Processing: Commit messages and content were cleaned, tokenized, then vecorized for ease of NLP </li>
-     <li> Similarity Analysis: I used Minhash with Jaccard similarity (MinHashLSH) to analyze the similarity of commit messages and content</li>
+     <li> Similarity Analysis: I used MinHash with Jaccard similarity (MinHashLSH) to analyze the similarity of commit messages and content</li>
      <li> Analysis of Commits over time: Once commits were determined to be duplicates or relatively unique, I compared uniqueness year over year and by coding language </li>
    </ul>
     

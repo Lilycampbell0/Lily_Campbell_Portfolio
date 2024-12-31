@@ -62,7 +62,7 @@ nav ul li a:hover {
 }
 
 .dropdown-content li a:hover {
-  background-color: #555;
+  background-color: DarkSlateGray;
 }
 
 /* Show Dropdown on Hover */

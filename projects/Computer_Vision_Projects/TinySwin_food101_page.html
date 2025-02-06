@@ -60,6 +60,15 @@
         <dd>- “We introduce a novel and challenging dataset of 101 food categories, with 101,000 images.”</dd>
     </dl>
 
+    <h2> Modeling Approach: </h2>
+    <p> I fine-tuned Microsoft's pretrained Tiny Swin model using pytorch API. I used a Swin Transformer due to its ability to effectively capture both local and global features while maintaining computational efficiency. Unlike traditional CNNs, which use fixed receptive fields, Swin Transformers leverage a hierarchical architecture with shifted windows, allowing them to process images with greater flexibility and efficiency.</p>
+
+    
+<h2> Results: </h2>
+   <ul>  
+     <li> Test Accuracy: 81.43% </li>
+     <li> F1 score: 81% </li>
+   </ul>  
     
 <highlight_button> 
   <a href="Food101_tinySwin/food101_swinn_for_web.html"> Full Code for This Project </a>

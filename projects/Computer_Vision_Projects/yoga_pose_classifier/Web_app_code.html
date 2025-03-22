@@ -1,1 +1,391 @@
-tmp file
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../styles.css">
+  <title> Yoga Pose Web App </title>
+</head>
+<body>
+  <header>
+    <h1>Yoga Pose Web App</h1>
+
+  <nav>
+  <ul class="tabs">
+    
+    <li class="dropdown">
+      <a href="../../index.html">Home</a>
+    </li>
+    <li class="dropdown">
+      <a href="#">Computer Vision </a>
+      <ul class="dropdown-content">
+        <li><a href="../Computer_Vision_Projects/cnn_vit_car_brand.html">CNN vs ViT</a></li>
+        <li><a href="../Computer_Vision_Projects/TinySwin_food101_page.html">tSwin for Food Images</a></li>
+        <li><a href="../Computer_Vision_Projects/yoga_pose_page.html">Yoga Pose Identifiaction</a></li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a href="#">Big Data </a>
+      <ul class="dropdown-content">
+        <li><a href="../Big_Data_Projects/Big_Data_Github_Analysis.html">Github Similarity Analysis</a></li>
+        <li><a href="../Big_Data_Projects/big_data_project.html">project2 big data</a></li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a href="#">Regression & Clustering</a>
+      <ul class="dropdown-content">
+        <li><a href="../Regression_Projects/Home_price_regression.html">Home Price Regression Analysis</a></li>
+        <li><a href="../Regression_Projects/clustering_project.html">clustering project</a></li>
+      </ul>
+    </li>
+        <li class="dropdown">
+      <a href="../resume.html">Resume</a>
+    </li>
+    
+  </ul>
+</nav>
+</header>
+  
+  <main> 
+ 
+
+  <img src="yoga_pose_classifier/yoga_poses_dta.jpg" alt="sample of yoga poses dataset" width="1100" height="200">
+    
+  <h2> Read Me</h2>  
+  <head>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+  <pre><code class="python">
+# README.md
+
+# Yoga Pose Classifier
+
+This is a simple web application built with Streamlit for classifying yoga poses from uploaded images. The application uses a pre-trained deep learning model to predict the yoga pose in the uploaded image.
+
+### Features
+
+- Upload an image of a yoga pose.
+- Display the uploaded image.
+- Predict the pose in the image.
+- Visualize prediction results as a bar plot.
+ 
+Must have ultalytics installed
+pip install ultalytics
+
+### Command
+streamlit run app.py
+
+# ctrl-c to stop the program
+
+ </code></pre>
+</body>
+
+<h2> Libraries and Functions</h2>
+  <head>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+  <pre><code class="python">
+import os
+import numpy as np
+import pickle
+import pandas as pd
+
+import tensorflow as tf
+from tensorflow.keras import layers
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing.image import load_img, img_to_array
+from tensorflow.keras.layers import Lambda, Input
+from tensorflow.keras.models import Model
+from tensorflow.keras.applications.resnet_v2 import ResNet50V2, preprocess_input as resnet_preprocess
+from tensorflow.keras.applications.densenet import DenseNet121, preprocess_input as densenet_preprocess
+from ultralytics import YOLO
+from sklearn.preprocessing import LabelEncoder
+
+# Get current working directory
+current_path = os.getcwd()
+
+# Path to yoga pose categories file
+pose_category_path = os.path.join(current_path, 'static/poses_category.pkl')
+
+# Load predictor model
+predictor_model_transfer = load_model(r'static/resnet_finetuned_model3.h5')
+print("Weights loaded")
+
+predictor_model_low = load_model(r'static/resnet_finetuned_model2.h5')
+print("Weights loaded")
+
+predictor_model_simple= load_model(r'static/model3_assign2.h5')
+print("Weights loaded")
+
+predictor_pose_est= load_model(r'static/yoga_pose_classifier_pd4.h5')
+print("Weights loaded")
+
+# Load pose categories
+with open(pose_category_path, 'rb') as handle:
+    poses = pickle.load(handle)
+
+# Input shape for images
+input_shape = (224, 224, 3)
+input_layer = Input(shape=input_shape)
+
+
+print("Models loaded")
+
+
+
+
+def predictor_transfer(img_path):
+    """
+    Function to predict Yoga Pose from an image.
+    Args:
+        img_path (str): Path to the input image.
+    Returns:
+        pandas.DataFrame: DataFrame containing predicted Yoga Poses and their corresponding confidence scores.
+    """
+    # Load image and preprocess
+    img = load_img(img_path, target_size=(224, 224))
+    img = img_to_array(img)
+    img = np.expand_dims(img, axis=0)
+    
+    # Predict yoga poses
+    prediction_transfer = predictor_model_transfer.predict(img) * 100
+    prediction_transfer  = pd.DataFrame(np.round(prediction_transfer, 1), columns=poses).transpose()
+    prediction_transfer.columns = ['values']
+    prediction_transfer  = prediction_transfer.nlargest(5, 'values')
+    prediction_transfer  = prediction_transfer.reset_index()
+    prediction_transfer.columns = ['name', 'values']
+
+    return prediction_transfer 
+
+def predictor_simple(img_path):
+    """
+    Function to predict Yoga Pose from an image.
+
+    Args:
+        img_path (str): Path to the input image.
+
+    Returns:
+        pandas.DataFrame: DataFrame containing predicted Yoga Poses and their corresponding confidence scores.
+    """
+    # Load image and preprocess
+    img = load_img(img_path, target_size=(224, 224))
+    img = img_to_array(img)
+    img = np.expand_dims(img, axis=0)
+
+    # Predict yoga poses
+    prediction = predictor_model_simple.predict(img) * 100
+    prediction = pd.DataFrame(np.round(prediction, 1), columns=poses).transpose()
+    prediction.columns = ['values']
+    prediction = prediction.nlargest(5, 'values')
+    prediction = prediction.reset_index()
+    prediction.columns = ['name', 'values']
+
+    return prediction
+
+def predictor_low_acc(img_path):
+    """
+    Function to predict Yoga Pose from an image.
+
+    Args:
+        img_path (str): Path to the input image.
+
+    Returns:
+        pandas.DataFrame: DataFrame containing predicted Yoga Poses and their corresponding confidence scores.
+    """
+    # Load image and preprocess
+    img = load_img(img_path, target_size=(224, 224))
+    img = img_to_array(img)
+    img = np.expand_dims(img, axis=0)
+
+    # Predict yoga poses
+    prediction = predictor_model_low.predict(img) * 100
+    prediction = pd.DataFrame(np.round(prediction, 1), columns=poses).transpose()
+    prediction.columns = ['values']
+    prediction = prediction.nlargest(5, 'values')
+    prediction = prediction.reset_index()
+    prediction.columns = ['name', 'values']
+
+    return prediction
+
+############################# Pose Estimation ##################
+
+model_yolo = YOLO("yolo11n-pose.pt") 
+model_nn = load_model("static/yoga_pose_classifier_pd4.h5")  # Update with actual model path
+
+# Function to extract keypoints from a new image
+
+# Load class names from pickle file
+pickle_file = "static/poses_category.pkl"  # Update with actual path
+with open(pickle_file, "rb") as f:
+    class_names = pickle.load(f)  # Load class names dictionary or list
+
+# Ensure class_names is a list
+if isinstance(class_names, dict):
+    class_names = list(class_names.values())  # Convert dictionary to list
+
+ 
+# Function to extract keypoints from a test image
+def extract_keypoints_from_image(img_path, expected_num_keypoints=196):
+    results = model_yolo(img_path)
+    for result in results:
+        if result.keypoints is not None and len(result.keypoints.xy.cpu().numpy()) > 0:
+            keypoints = result.keypoints.xy.cpu().numpy().flatten()
+
+            # Ensure the keypoints have the correct shape (pad with zeros if needed)
+            if len(keypoints) < expected_num_keypoints:
+                keypoints = np.pad(keypoints, (0, expected_num_keypoints - len(keypoints)), mode='constant')
+            
+            return keypoints
+    return None  # Return None if no pose is detected
+
+# Function to predict yoga pose and return a DataFrame for bar plot
+def predict_yoga_pose(img_path):
+    new_keypoints = extract_keypoints_from_image(img_path)
+
+    if new_keypoints is not None:
+        new_keypoints = np.array(new_keypoints).reshape(1, -1)  # Reshape for model input
+
+        if new_keypoints.shape[1] == model_nn.input_shape[1]:
+            pose_probs = model_nn.predict(new_keypoints)[0]  # Get class probabilities
+            
+            # Create a DataFrame for visualization
+            prediction_df = pd.DataFrame({
+                "name": class_names,  # Class names from pickle
+                "values": pose_probs * 100  # Convert to percentage
+            })
+
+# Get top 5 predictions
+            top_5_predictions = prediction_df.sort_values("values", ascending=False).head(5)
+
+            return top_5_predictions
+            
+ </code></pre>
+</body>    
+
+<h2> Application</h2>
+  <head>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+  <pre><code class="python">
+import streamlit as st
+import os
+import logging
+import matplotlib.pyplot as plt
+import seaborn as sns
+from PIL import Image
+from helper import *
+
+# Set seaborn style
+sns.set()
+
+# Configure logging
+logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
+
+def save_uploaded_file(uploaded_file):
+    """
+    Save the uploaded file to the 'uploaded' directory.
+
+    Args:
+        uploaded_file (File): Uploaded file object.
+
+    Returns:
+        int: Status code indicating success (1) or failure (0).
+    """
+    try:
+        with open(os.path.join('uploaded', uploaded_file.name), 'wb') as f:
+            f.write(uploaded_file.getbuffer())
+        return 1    
+    except:
+        return 0        
+
+def main():
+    """
+    Main function to run the Streamlit app.
+    """
+    # Set app title
+    st.title('Yoga Pose Classifier')
+    
+    option = st.selectbox(
+    "What model do you want to use?",
+    ("Transfer Learning Imagenet", "Simple CNN", "Low accuracy Transfer Learning", "Ultralytics Pose Estimation Preprocessing"),
+    )
+
+    st.write("You selected:", option)
+    print(option)
+
+    # File uploader
+    uploaded_file = st.file_uploader("Upload Image")
+
+    if uploaded_file is not None:
+        logging.info("File uploaded: %s", uploaded_file.name)
+        # Save the uploaded file
+        if save_uploaded_file(uploaded_file):
+            # Display the uploaded image
+            display_image = Image.open(uploaded_file)
+            display_image = display_image.resize((224, 224))  # Resize image
+            st.image(display_image)
+            if option == 'Transfer Learning Imagenet':
+                # Make prediction using the uploaded image
+                prediction_transfer = predictor_transfer(os.path.join('uploaded', uploaded_file.name))
+                logging.info("Prediction: %s", prediction_transfer)
+                st.markdown('**Predictions**')
+                       # Display predictions as bar plot
+                fig, ax = plt.subplots()
+                ax = sns.barplot(y='name', x='values', data=prediction_transfer, 
+                            order=prediction_transfer.sort_values('values', ascending=False).name)
+                ax.set(xlabel='Confidence %', ylabel='Pose')
+                st.pyplot(fig)
+            if option == "Simple CNN":
+                prediction_simple = predictor_simple(os.path.join('uploaded', uploaded_file.name))
+                logging.info("Prediction: %s", prediction_simple)
+                st.markdown('**Predictions**')
+                       # Display predictions as bar plot
+                fig, ax = plt.subplots()
+                ax = sns.barplot(y='name', x='values', data=prediction_simple , 
+                            order=prediction_simple.sort_values('values', ascending=False).name)
+                ax.set(xlabel='Confidence %', ylabel='Pose')
+                st.pyplot(fig)
+            if option == "Low accuracy Transfer Learning":
+                prediction_low = predictor_low_acc(os.path.join('uploaded', uploaded_file.name))
+                logging.info("Prediction: %s", prediction_low)
+                st.markdown('**Predictions**')
+                       # Display predictions as bar plot
+                fig, ax = plt.subplots()
+                ax = sns.barplot(y='name', x='values', data=prediction_low , 
+                            order=prediction_low.sort_values('values', ascending=False).name)
+                ax.set(xlabel='Confidence %', ylabel='Pose')
+                st.pyplot(fig)
+                
+            if option == "Ultralytics Pose Estimation Preprocessing":
+                prediction_ultra = predict_yoga_pose(os.path.join('uploaded', uploaded_file.name))
+                logging.info("Prediction: %s", prediction_ultra)
+                st.markdown('**Predictions**')
+                       # Display predictions as bar plot
+                fig, ax = plt.subplots()
+                ax = sns.barplot(y='name', x='values', data=prediction_ultra , 
+                            order=prediction_ultra.sort_values('values', ascending=False).name)
+                ax.set(xlabel='Confidence %', ylabel='Pose')
+                st.pyplot(fig)
+            
+if __name__ == '__main__':
+    main()
+
+
+  </code></pre>
+</body>      
+    
+  </main>
+</body>
+</html>

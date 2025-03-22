@@ -61,23 +61,29 @@
      <li> Regular CNN: 
         <ul>
           <li> Architecture: 5 convolutional layers with max pooling, and 2 dense layers- resulting in 812K total parameters.</li>
-          <li> Results: 38% Accuracy</li>
+          <li> Results: 38% Test Accuracy</li>
         </ul>
      </li>
      <li> Fine Tuning of VGG19 Imagenet:
        <ul>
           <li> Architecture: The first 20 layers of the Imagenet model were frozen, with 2 dense layers added- resulting in 46M total parameters.</li>
-          <li> Results: 65% Accuracy</li>
+          <li> Results: 65% Test Accuracy</li>
         </ul>
      </li>
      <li> Pose Estimation Feature Extraction:
        <ul>
-          <li> Architecture: The first 20 layers of the Imagenet model were frozen, with 2 dense layers added- resulting in 46M total parameters.</li>
-          <li> Results: 65% Accuracy</li>
+          <li> Architecture: Yolo11 Pose was used to create tensors with information about where a person's body and limbs are located relative to one another. 
+                            These 'pose estimation' results were then fed into a neural network with 6 hidden layers.
+          </li>
+          <li> Results: 30% Test Accuracy</li>
         </ul>
      </li>
    </ul>
 <img src="yoga_pose_classifier/pose_estimation_example.jpg" alt="sample of yoga pose estimation" width="300" height="500">  
+
+<p> Ultralytics provides open source models including the 
+</p> 
+    
 
     
 <highlight_button> 

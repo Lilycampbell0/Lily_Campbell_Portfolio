@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../styles.css">
+  <title> Yoga Pose Classification </title>
+</head>
+<body>
+  <header>
+    <h1>Yoga Pose Classification</h1>
+
+  <nav>
+  <ul class="tabs">
+    
+    <li class="dropdown">
+      <a href="../../index.html">Home</a>
+    </li>
+    <li class="dropdown">
+      <a href="#">Computer Vision </a>
+      <ul class="dropdown-content">
+        <li><a href="../Computer_Vision_Projects/cnn_vit_car_brand.html">CNN vs ViT</a></li>
+        <li><a href="../Computer_Vision_Projects/TinySwin_food101_page.html">tSwin for Food Images</a></li>
+        <li><a href="../Computer_Vision_Projects/yoga_pose_page.html">tSwin for Food Images</a></li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a href="#">Big Data </a>
+      <ul class="dropdown-content">
+        <li><a href="../Big_Data_Projects/Big_Data_Github_Analysis.html">Github Similarity Analysis</a></li>
+        <li><a href="../Big_Data_Projects/big_data_project.html">project2 big data</a></li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a href="#">Regression & Clustering</a>
+      <ul class="dropdown-content">
+        <li><a href="../Regression_Projects/Home_price_regression.html">Home Price Regression Analysis</a></li>
+        <li><a href="../Regression_Projects/clustering_project.html">clustering project</a></li>
+      </ul>
+    </li>
+        <li class="dropdown">
+      <a href="../resume.html">Resume</a>
+    </li>
+    
+  </ul>
+</nav>
+
+</header>
+  <main> 
+  <h2>   Project Goal: </h2> 
+    <p> This project compared multiple methods to classify images of people performing 107 different yoga poses. 
+      Methodologies tested include a CNN, a fine tuning the VGG19 Imagenet CNN, and Ultralytics Pose Estimation feature extraction with a Neural Network classifier.</p>
+
+  <img src="Food101_tinySwin/Food101_image.jpg" alt="sample of food101 dataset" width="1100" height="200">
+    
+
+    <h2> Modeling Approach: </h2>
+   <ul> 
+     <li> Regular CNN: 
+        <ul>
+          <li> Architecture: 5 convolutional layers with max pooling, and 2 dense layers- resulting in 812K total parameters.</li>
+          <li> Results: 38% Accuracy</li>
+        </ul>
+     </li>
+     <li> Fine Tuning of VGG19 Imagenet:
+       <ul>
+          <li> Architecture: The first 20 layers of the Imagenet model were frozen, with 2 dense layers added- resulting in 46M total parameters.</li>
+          <li> Results: 65% Accuracy</li>
+        </ul>
+     </li>
+     <li> Pose Estimation Feature Extraction:
+       <ul>
+          <li> Architecture: The first 20 layers of the Imagenet model were frozen, with 2 dense layers added- resulting in 46M total parameters.</li>
+          <li> Results: 65% Accuracy</li>
+        </ul>
+     </li>
+     
+   </ul>
+
+
+    
+<h2> Results: </h2>
+   <ul>  
+     <li> Test Accuracy: 81.43% </li>
+     <li> F1 score: 81% </li>
+   </ul>  
+    
+<highlight_button> 
+  <a href="Food101_tinySwin/food101_swinn_for_web.html"> Full Code for This Project </a>
+</highlight_button>  
+
+<h2> Highlighted Code Sections: </h2>
+    
+  <head>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+  <pre><code class="python">
+# Regular CNN Architecture
+model3 = Sequential([
+    Conv2D(32, (3, 3), activation="relu", input_shape=(224, 224, 3)),
+    BatchNormalization(),
+    MaxPooling2D(pool_size=(2, 2)),
+
+    Conv2D(64, (3, 3), activation="relu"),
+    MaxPooling2D(pool_size=(2, 2)),
+
+    Conv2D(128,(3, 3), activation='relu'),
+    MaxPooling2D(pool_size=(2, 2)),
+
+    Conv2D(128, (3, 3), activation="relu"),
+    MaxPooling2D(pool_size=(2, 2)),
+
+    Conv2D(128, (3, 3), activation="relu"),
+    MaxPooling2D(pool_size=(2, 2)),
+
+    Flatten(),
+    Dense(128, activation="relu"),
+
+    Dropout(0.5),
+
+    Dense(len(class_labels), activation="softmax")  # Output layer
+])
+
+# Compile model with adam optimizer
+model3.compile(optimizer='adam', loss="categorical_crossentropy", metrics=["accuracy"])
+
+ </code></pre>
+</body>
+
+  <head>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+  <pre><code class="python">
+# VGG Imagenet transfer learning
+model = applications.VGG19(weights = "imagenet", include_top=False, input_shape=(224, 224, 3))
+for layer in model.layers[:20]:
+  layer.trainable = False
+#Adding custom Layers
+x = model.output
+x = Flatten()(x)
+x = Dense(1024, activation="relu")(x)
+x = Dropout(0.5)(x)
+x = Dense(1024, activation="relu")(x)
+predictions = Dense(num_classes, activation="softmax")(x)
+
+# creating the final model
+model_final = Model(model.input, predictions)
+ </code></pre>
+</body>    
+
+  <head>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+  <pre><code class="python">
+# Feature Extraction with Ultralytics Pose Estimation and NN Classifier
+from ultralytics import YOLO
+# Load YOLO Pose Estimation Model
+model_yolo = YOLO("yolo11n-pose.pt")  # Update with your model file
+
+# Set dataset path
+dataset_path = "/content/yoga-poses-dataset-107/107 yoga poses/train"  # Update with your dataset path
+
+# Get all image file paths
+image_paths = glob(os.path.join(dataset_path, "**/*.png"), recursive=True)  # Adjust extension if needed
+
+# Store extracted features and labels
+keypoints_list = []
+labels = []
+valid_image_paths = []  # Store only images where a person is detected
+
+print("Extracting keypoints from images...")
+
+# Process images
+for img_path in image_paths:
+    # Run YOLO pose estimation
+    results = model_yolo(img_path)
+
+    # Extract keypoints (for the first detected person)
+    for result in results:
+        if result.keypoints is not None and len(result.keypoints.xy.cpu().numpy()) > 0:
+            keypoints = result.keypoints.xy.cpu().numpy().flatten()  # Flatten keypoints array
+            keypoints_list.append(keypoints)
+
+            # Extract label from folder name (Assuming structure: dataset/class_name/image.jpg)
+            label = os.path.basename(os.path.dirname(img_path))
+            labels.append(label)
+            valid_image_paths.append(img_path)  # Store valid image path
+
+print(f"Total images processed: {len(image_paths)}")
+print(f"Valid images with detected persons: {len(valid_image_paths)}")
+
+
+# NN Classifier
+num_classes = len(label_encoder.classes_)  # Number of unique yoga poses
+
+model_nn = Sequential([
+    Dense(128, input_shape=(X_train.shape[1],)),
+    tf.keras.layers.LeakyReLU(alpha=0.01),
+    BatchNormalization(),
+
+    Dense(128),
+    tf.keras.layers.LeakyReLU(alpha=0.01),
+    BatchNormalization(),
+
+    Dense(128),
+    tf.keras.layers.LeakyReLU(alpha=0.01),
+    BatchNormalization(),
+
+    Dense(128),
+    tf.keras.layers.LeakyReLU(alpha=0.01),
+    BatchNormalization(),
+
+    Dense(128),
+    tf.keras.layers.LeakyReLU(alpha=0.01),
+    BatchNormalization(),
+
+    Dense(128),
+    tf.keras.layers.LeakyReLU(alpha=0.01),
+    BatchNormalization(),
+
+    Dense(64),
+    tf.keras.layers.LeakyReLU(alpha=0.01),
+    BatchNormalization(),
+
+    Dropout(0.6),
+    Dense(num_classes, activation="softmax")  # Multi-class classification
+])
+
+# Compile Model
+model_nn.compile(optimizer=Adam(learning_rate=0.001 ),
+                 loss="sparse_categorical_crossentropy",
+                 metrics=["accuracy"])
+
+  </code></pre>
+</body>      
+    
+  </main>
+</body>
+</html>

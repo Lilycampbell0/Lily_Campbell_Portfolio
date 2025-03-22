@@ -49,7 +49,9 @@
   <main> 
   <h2>   Project Goal: </h2> 
     <p> This project compared multiple methods to classify images of people performing 107 different yoga poses. 
-      Methodologies tested include a CNN, a fine tuning the VGG19 Imagenet CNN, and Ultralytics Pose Estimation feature extraction with a Neural Network classifier.</p>
+      Methodologies tested include a CNN, a fine tuning the VGG19 Imagenet CNN, and Ultralytics Pose Estimation feature extraction with a Neural Network classifier.
+      The trained models were then used to create a web app using Streamlit API which allows users to upload images of them performing yoga, and provide idenfication of the pose.
+    </p>
 
   <img src="yoga_pose_classifier/yoga_poses_dta.jpg" alt="sample of yoga poses dataset" width="1100" height="200">
     
@@ -74,19 +76,11 @@
           <li> Results: 65% Accuracy</li>
         </ul>
      </li>
-     
    </ul>
 
-
-    
-<h2> Results: </h2>
-   <ul>  
-     <li> Test Accuracy: 81.43% </li>
-     <li> F1 score: 81% </li>
-   </ul>  
     
 <highlight_button> 
-  <a href="Food101_tinySwin/food101_swinn_for_web.html"> Full Code for This Project </a>
+  <a href="Food101_tinySwin/food101_swinn_for_web.html"> Web App Code </a>
 </highlight_button>  
 
 <h2> Highlighted Code Sections: </h2>
@@ -156,6 +150,7 @@ model_final = Model(model.input, predictions)
  </code></pre>
 </body>    
 
+<img src="yoga_pose_classifier/pose_estimation_example.jpg" alt="sample of yoga pose estimation" width="300" height="500">  
   <head>
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">

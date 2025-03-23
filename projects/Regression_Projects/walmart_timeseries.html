@@ -58,12 +58,13 @@
       <p> I used SARIMA-X hierarchical time series forecasting, such that the sales forecast of 45 individual stores was aggrregated at each point in time to forecast the total volume of sales.
         </p>
     
- <img src="home_price_reg_files/house_regression_bar.jpg" alt="house price by neighborhood" width="600" height="1000"  >    
+ <img src="timeseries/walmart_sales.jpg" alt="sales over time" width="900" height="500"  >    
     
 <h2> Key Findings:</h2>
-    <p> This model adequately forecasted total sales volume unless there was a large shock in the market at the end of the training period. </p>
+    <p> This model adequately forecasted total sales volume unless there was a large shock in the market at the end of the training period. RMSE was approximately $3.4M, which was in line with expectation for this dataset. </p>
 
-  
+  <img src="timeseries/walmart_forecast.jpg" alt="sales over time" width="900" height="700"  >   
+    
 <h2> Key Code Sections: </h2>  
 
       <head>
@@ -74,61 +75,34 @@
 </head>
 <body>
   <pre><code class="R">
-library(dplyr)
-library(stringr)
-library(readr)
-library(lmtest)
-library(ggplot2)
-library(scales)
-library(lubridate)
+
+  # Arima for one store
+  values = function(train, test, i){
+    # Fit auto.arima with seasonality 
+    fit = auto.arima(ts(train[train['Store']==i,]['Weekly_Sales'],frequency=52 ), seasonal = TRUE)
+    forecast = forecast(fit,h=43)
+    #print(summary(fit))
+    forecast$mean
+  }
+  
+  # Store all forecasts in a list (each element is a vector of length 43)
+  store_forecasts = lapply(1:45, function(i) values(train, test, i))
+  # Sum forecasts across all stores while keeping the 43-day structure
+  aggregated_forecast = Reduce(`+`, store_forecasts)
+  rmse_hier_arimax = sqrt(mean((aggregated_forecast - complete_set_test$Weekly_Sales)^2, na.rm=TRUE))
+  print(paste("RMSE (in dollars):", round(rmse_hier_arimax, 2)))
+  
+  actual_total_sales <- test %>%
+    group_by(Date) %>%
+    summarise(Total_Sales = sum(Weekly_Sales)) %>%
+    arrange(Date)
+  n_common = min(nrow(actual_total_sales), length(aggregated_forecast))
+
     
 </code></pre>
 </body>
-
-        <head>
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
-</head>
-<body>
-  <pre><code class="R">
-#find median price for each neighborhood then group by quantile categorically
-neighborhoods <- fcd2_p10k %>% group_by(neighborhood) %>% 
-  summarise(median_price = median(price, na.rm = TRUE))
-
-quantiles <- quantile(neighborhoods$median_price, probs = seq(0, 1, by = 0.1))
-quintiles <- quantile(neighborhoods$median_price, probs = seq(0, 1, by = 0.2))
-# Assign each value to a quantile
-neighborhoods$quantile <- cut(neighborhoods$median_price, breaks = quantiles, include.lowest = TRUE, labels = FALSE)
-neighborhoods$quintile <- cut(neighborhoods$median_price, breaks = quintiles, include.lowest = TRUE, labels = FALSE)
-df_grp <- merge(fcd2_p10k, neighborhoods, by = "neighborhood", all.x = TRUE)
-df_grp$quantile<-as.character(df_grp$quantile)
-df_grp$quintile<-as.character(df_grp$quintile)
-
-quantile_info <- df_grp %>% group_by(quantile) %>% 
-  summarise(median_price = median(price, na.rm = TRUE))
-quantile_info$quantile <- factor(quantile_info$quantile, levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
-</code></pre>
-</body>
     
-            <head>
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
-</head>
-<body>
-  <pre><code class="R">
-str(df_grp)
-model9 = lm(price~grosssqft+yrbuilt+quantile+year_quarter+bld_cat_1*grosssqft+quantile*grosssqft,df_grp)
-summary(model9)
-plot(model9$fitted.values,model9$residuals)
-ks.test(model9$residuals/summary(model9)$sigma,pnorm)
-hist(model9$residuals)
-bptest(model9)
-    </code></pre>
-</body>
+
     
   </main>
 </body>

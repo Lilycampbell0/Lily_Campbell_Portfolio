@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../styles.css">
+  <title>Home Price Regression Analysis</title>
+</head>
+<body>
+  <header>
+    <h1>Walmart Sales Forecasting </h1>
+
+  <nav>
+  <ul class="tabs">
+    
+    <li class="dropdown">
+      <a href="../../index.html">Home</a>
+    </li>
+    <li class="dropdown">
+      <a href="#">Computer Vision </a>
+      <ul class="dropdown-content">
+        <li><a href="../Computer_Vision_Projects/cnn_vit_car_brand.html">CNN vs ViT</a></li>
+        <li><a href="../Computer_Vision_Projects/TinySwin_food101_page.html">tSwin for Food Images</a></li>
+        <li><a href="../Computer_Vision_Projects/yoga_pose_page.html">Yoga Pose Identifiaction</a></li>
+        <li><a href="../Computer_Vision_Projects/Argonne_Labs_Bird_Detection.html">Bird Detection</a></li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a href="#">Big Data </a>
+      <ul class="dropdown-content">
+        <li><a href="../Big_Data_Projects/Big_Data_Github_Analysis.html">Github Similarity Analysis</a></li>
+        <li><a href="../Big_Data_Projects/big_data_project.html">project2 big data</a></li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a href="#">Regression & Clustering</a>
+      <ul class="dropdown-content">
+        <li><a href="../Regression_Projects/Home_price_regression.html">Home Price Regression Analysis</a></li>
+        <li><a href="../Regression_Projects/walmart_timeseries.html">Walmart Sales Forecasting</a></li>
+      </ul>
+    </li>
+        <li class="dropdown">
+      <a href="../resume.html">Resume</a>
+    </li>
+    
+  </ul>
+</nav>
+</header>
+  <main>
+    
+<h2> Project Goal: </h2>
+    <p> This analysis proposes hierarchical forecasting as an approach to forecasting total weekly sales for Walmart retail stores.
+      It uses data on sales volumes for 45 stores reported weekly for two and a half years, along with exogenous variables including CPI, Gas Price and Unemployment. </p>
+
+
+
+<h2> Methodology:</h2>
+      <p> I used SARIMA-X hierarchical time series forecasting, such that the sales forecast of 45 individual stores was aggrregated at each point in time to forecast the total volume of sales.
+        </p>
+    
+ <img src="home_price_reg_files/house_regression_bar.jpg" alt="house price by neighborhood" width="600" height="1000"  >    
+    
+<h2> Key Findings:</h2>
+    <p> This model adequately forecasted total sales volume unless there was a large shock in the market at the end of the training period. </p>
+
+  
+<h2> Key Code Sections: </h2>  
+
+      <head>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+  <pre><code class="R">
+library(dplyr)
+library(stringr)
+library(readr)
+library(lmtest)
+library(ggplot2)
+library(scales)
+library(lubridate)
+    
+</code></pre>
+</body>
+
+        <head>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+  <pre><code class="R">
+#find median price for each neighborhood then group by quantile categorically
+neighborhoods <- fcd2_p10k %>% group_by(neighborhood) %>% 
+  summarise(median_price = median(price, na.rm = TRUE))
+
+quantiles <- quantile(neighborhoods$median_price, probs = seq(0, 1, by = 0.1))
+quintiles <- quantile(neighborhoods$median_price, probs = seq(0, 1, by = 0.2))
+# Assign each value to a quantile
+neighborhoods$quantile <- cut(neighborhoods$median_price, breaks = quantiles, include.lowest = TRUE, labels = FALSE)
+neighborhoods$quintile <- cut(neighborhoods$median_price, breaks = quintiles, include.lowest = TRUE, labels = FALSE)
+df_grp <- merge(fcd2_p10k, neighborhoods, by = "neighborhood", all.x = TRUE)
+df_grp$quantile<-as.character(df_grp$quantile)
+df_grp$quintile<-as.character(df_grp$quintile)
+
+quantile_info <- df_grp %>% group_by(quantile) %>% 
+  summarise(median_price = median(price, na.rm = TRUE))
+quantile_info$quantile <- factor(quantile_info$quantile, levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
+</code></pre>
+</body>
+    
+            <head>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+  <pre><code class="R">
+str(df_grp)
+model9 = lm(price~grosssqft+yrbuilt+quantile+year_quarter+bld_cat_1*grosssqft+quantile*grosssqft,df_grp)
+summary(model9)
+plot(model9$fitted.values,model9$residuals)
+ks.test(model9$residuals/summary(model9)$sigma,pnorm)
+hist(model9$residuals)
+bptest(model9)
+    </code></pre>
+</body>
+    
+  </main>
+</body>
+</html>

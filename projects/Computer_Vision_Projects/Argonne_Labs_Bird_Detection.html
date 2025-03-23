@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../../styles.css">
-  <title>Tiny Swin For Food Image Classification</title>
+  <title>Bird Detection and Size Estimation</title>
 </head>
 <body>
   <header>
-    <h1>Tiny Swin For Food Image Classification</h1>
+    <h1>Bird Detection and Size Estimation</h1>
 
   <nav>
   <ul class="tabs">
@@ -48,30 +48,14 @@
 
 </header>
   <main> 
-  <h2>   Project Goal: </h2> 
-    <p> This project fine tunes a Tiny Swin transformer to classify images from the Food101 dataset.
-    This dataset consists of 101 food categories with 750 training and 250 test images per category, summing up to a total of 101,000 images. The training images are not cleaned, and thus still contain some amount of noise.  </p>
+  <h2>   Project Overview: </h2> 
+    <p> In partnership with Argonne National Laboratory, I was on a team which conducted research on how to improve detection of birds and bird collisions. 
+      I performed a comparison analysis of previous work on bird detection with recently released open source models. 
+      Models were evaluated by both their ability to detect a bird as well as how tightly a bounding box was fit around the bird in the image if present.  </p>
 
-  <img src="Food101_tinySwin/Food101_image.jpg" alt="sample of food101 dataset" width="1100" height="200">
-    
-  <h2>   Key Literature: </h2> 
-    <dl>
-      <dt>Swin Transformer: Hierarchical Vision Transformer using Shifted Windows, Microsoft Research Asia 2021</dt>
-        <dd>- “To address these differences, we propose a hierarchical Transformer whose representation is computed with Shifted windows.”</dd>
-      <dt>Food-101 – Mining Discriminative Components with Random Forests 2014</dt>
-        <dd>- “We introduce a novel and challenging dataset of 101 food categories, with 101,000 images.”</dd>
-    </dl>
+  <h2> Modeling Approach: </h2>
+    <p> Comparison Models included Yolo-V8, Yolo-V11, and an R-CNN. </p>
 
-    <h2> Modeling Approach: </h2>
-    <p> I fine-tuned Microsoft's pretrained Tiny Swin model using pytorch API. I used a Swin Transformer due to its ability to effectively capture both local and global features while maintaining computational efficiency. Unlike traditional CNNs, which use fixed receptive fields, Swin Transformers leverage a hierarchical architecture with shifted windows, allowing them to process images with greater flexibility and efficiency.</p>
-
-    
-<h2> Results: </h2>
-   <ul>  
-     <li> Test Accuracy: 81.43% </li>
-     <li> F1 score: 81% </li>
-   </ul>  
-    
      
     
   </main>

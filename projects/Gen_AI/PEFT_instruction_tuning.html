@@ -65,43 +65,47 @@
   
     <h2>    Relevant Literature & Resources </h2> 
       <ol>
-    <li> LoRA: Low-Rank Adaptation of Large Language Models  - "We propose Low-Rank Adaptation, or LoRA, which freezes the pre-trained model weights and injects trainable rank decomposition matrices into each layer of the Transformer architecture, greatly reducing the number of trainable parameters for downstream tasks - https://arxiv.org/abs/2106.09685" </li>
+    <li> LoRA: Low-Rank Adaptation of Large Language Models  - "We propose Low-Rank Adaptation, or LoRA, which freezes the pre-trained model weights and injects trainable rank decomposition matrices into each layer of the Transformer architecture, greatly reducing the number of trainable parameters for downstream tasks" - https://arxiv.org/abs/2106.09685 </li>
     <li> Finetuning LLMs using LoRA - "LoRA is an improved finetuning method where instead of finetuning all the weights that constitute the weight matrix (W) of the pre-trained large language model, two smaller matrices (A and B) that approximate the update to the matrix are fine-tuned." - https://anirbansen2709.medium.com/finetuning-llms-using-lora-77fb02cbbc48 </li>
     </ol>
   
   <h2>   Modeling Approach: </h2>
     <ol>
-    <li> Fine tune using the Dolly 15k dataset using LORA (Low-Rank Adaptation)  </li>
-    <li> CNN with transfer learning using the Inception ResNet V2 pre-trained model </li>
-    <li> Vision Transformer with transfer learning using Google’s pretrained VIT model (google/vit-base-patch16-224) </li>
+    <li> Fine tune using the Dolly 15k dataset using LORA (Low-Rank Adaptation).  </li>
+    <li> Utilize Unsloth to facilitate fine tuning </li>
+    <li> Generate responses for a set of test instructions using both the pre-trained and fine-tuned models to evaluate results</li>
+
     </ol>
 
   <h2> Example Results: </h2>
    <ul>  
+     
      <li> Prompt: Explain photosynthesis. 
-
-       Response Prior to Fine Tuning: "The most popular television film of the year is "The Adventorist" by the British Film Academy. "The most popular television film of the year is "The Adventorist" by the British Film Audience. "The most popular television film of the year is "The Adventorist" by the British Film Audience. "The most popular television film of the year is "The Adventorist" by the British Film Audience. "The most popular television film
-
-       Response After Fine Tuning: Photosynthesis is the process by which plants and other organisms convert carbon dioxide into glucose (sugar) using sunlight as energy. It is a complex process that involves the conversion of carbon dioxide into glucose through the production of ATP (adenosine triphosphate) and NADPH (nicotinamide adenine dinucleotide phosphate).
-       The process begins with the absorption of carbon dioxide by the plant through the leaves. The absorbed carbon dioxide is then converted into glucose through the process of photosynthesis. The glucose is then used by the plant to produce energy through the process of resp 
+       <ul>
+        <li>Response Prior to Fine Tuning: "The most popular television film of the year is "The Adventorist" by the British Film Academy. "The most popular television film of the year is "The Adventorist" by the British Film Audience. "The most popular television film of the year is "The Adventorist" by the British Film Audience. "The most popular television film of the year is "The Adventorist" by the British Film Audience. "The most popular television film</li>
+        <li>Response After Fine Tuning: Photosynthesis is the process by which plants and other organisms convert carbon dioxide into glucose (sugar) using sunlight as energy. It is a complex process that involves the conversion of carbon dioxide into glucose through the production of ATP (adenosine triphosphate) and NADPH (nicotinamide adenine dinucleotide phosphate).
+       The process begins with the absorption of carbon dioxide by the plant through the leaves. The absorbed carbon dioxide is then converted into glucose through the process of photosynthesis. The glucose is then used by the plant to produce energy through the process of ... </li>
+      </ul>
      </li>
      
      <li> Prompt: Classify the following sentence as Positive or Negative sentiment: “I loved the customer service!”
-       
-        Response Prior to Fine Tuning: ”"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-       
-       Response After Fine Tuning: Positive sentiment
-     
+       <ul>
+         <li>Response Prior to Fine Tuning: ”""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" </li>
+         <li>Response After Fine Tuning: Positive sentiment </li>
+       </ul>
      </li>
+     
      <li> Prompt: Pretend you're a travel agent. Recommend a weekend getaway in the US for someone who loves hiking.
-       Response Prior to Fine Tuning: Re: S:: S::: S::: S::: ...
-       Response After Fine Tuning: Of course! Here are some weekend getaway options in the US for someone who loves hiking:
+       <ul>
+         <li>Response Prior to Fine Tuning: Re: S:: S::: S::: S::: ... </li>
+         <li>Response After Fine Tuning: Of course! Here are some weekend getaway options in the US for someone who loves hiking:
 
         1. Yosemite National Park, California: This park is known for its stunning natural beauty and hiking trails. It's a great place to explore the great outdoors and enjoy some fresh air.
         
         2. Grand Canyon National Park, Arizona: This park is a must-visit destination for anyone who loves hiking. The park offers a variety of hiking trails, including the famous Bright Angel Trail.
         
-        3. Zion National Park, Utah: This park is known for its stunning natural beauty and hiking.
+        3. Zion National Park, Utah: This park is known for its stunning natural beauty and hiking. </li>
+      </ul> 
      </li>
    </ul>  
 

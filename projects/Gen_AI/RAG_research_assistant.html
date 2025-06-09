@@ -65,7 +65,7 @@
       <li> At query time, these retrieved texts are then passed as context to GPT-4 via LangChain, enabling the model to generate informed and grounded answers based on the research papers </li>
       <li> The sources of chunks are stored so that the article and page number of the retrieved information can be cited</li>
     </ul>
-    <h2> Example Results from uploading: </h2> 
+    <h2> Example Results: </h2> 
     <p> Papers Uploaded: Retrieval Augmented Generation or Long-Context LLMs? A Comprehensive Study and Hybrid Approach (Zhouwan et al. 2024) and Searching for Best Practices in Retrieval-Augmented
 Generation (Wang et al. 2024)</p>
     <ul>
@@ -81,6 +81,12 @@ Sources: wang_paper.pdf</li>
          <ul> 
            <li> The key failure cases for RAG in handling long context retrievals, as noted by Zhuowan Li, include its performance drop when queries are slightly modified or when dealing with complex queries such as determining which of two passkeys is larger. These cases highlight RAG's limitations in adapting to variations in query phrasing and handling more intricate retrieval tasks.
 Sources: zhuowan_paper.pdf</li>
+         </ul>
+      </li>
+      <li> Query: "How does query rewriting contribute to the overall efficiency of RAG according to Wang's findings?" 
+         <ul> 
+           <li> Query rewriting contributes to the overall efficiency of RAG by allowing the system to dynamically route queries based on model self-reflection, effectively combining the strengths of RAG and other methods like LC. This approach achieves comparable performance to more computationally intensive methods at a significantly reduced cost. By optimizing the retrieval process, query rewriting helps balance performance and efficiency, making RAG a viable option for handling inputs that exceed the model's context window size.
+Sources: zhuowan_paper.pdf, wang_paper.pdf</li>
          </ul>
       </li>
       

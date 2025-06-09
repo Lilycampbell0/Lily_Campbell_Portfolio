@@ -66,7 +66,112 @@
       <li> The sources of chunks are stored so that the article and page number of the retrieved information can be cited</li>
     </ul>
    
-   
+     <h2> Highlighted Code Sections: </h2>
+    
+  <head>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+  <pre><code class="python">
+import bs4
+from langchain import hub
+from langchain_chroma import Chroma
+from langchain_community.document_loaders import WebBaseLoader
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnablePassthrough
+from langchain_openai import OpenAIEmbeddings
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_community.document_loaders import PyPDFLoader
+
+# Load in papers from folder
+docs = []
+for file in os.listdir(pdf_folder_path):
+    if file.endswith('.pdf'):
+        pdf_path = os.path.join(pdf_folder_path, file)
+        loader = PyPDFLoader(pdf_path)
+        loaded_docs = loader.load()
+        for doc in loaded_docs:
+          filename = os.path.basename(file)
+          print(filename)
+          doc.metadata["source"] = filename
+        docs.extend(loaded_docs)
+
+ </code></pre>
+</body>
+
+
+<head>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+  <pre><code class="python">
+# Split
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=200)
+splits = text_splitter.split_documents(docs)
+
+vectorstore = Chroma.from_documents(documents=splits,
+                                    embedding=OpenAIEmbeddings())
+retriever = vectorstore.as_retriever()
+    
+ </code></pre>
+</body>
+
+<head>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+  <pre><code class="python">
+# RETRIEVAL and GENERATION
+prompt = hub.pull("rlm/rag-prompt")
+llm = ChatOpenAI(model_name="gpt-4o", temperature=0)
+
+# Post-processing
+def format_docs(docs):
+    return "\n\n".join(doc.page_content for doc in docs)
+
+from langchain.schema.runnable import RunnableMap, RunnableLambda, RunnablePassthrough
+
+def format_docs_with_metadata(docs):
+    return {
+        "context": "\n\n".join(doc.page_content for doc in docs),
+        "source_docs": docs
+    }
+
+#Build the chain to keep sources
+rag_chain = (
+    RunnableMap({
+        "context": retriever | RunnableLambda(format_docs_with_metadata),
+        "question": RunnablePassthrough()
+    })
+    | RunnableLambda(lambda inputs: {
+        "question": inputs["question"],
+        "context": inputs["context"]["context"],
+        "source_docs": inputs["context"]["source_docs"]
+    })
+    | RunnableMap({
+        "response": prompt | llm | StrOutputParser(),
+        "source_docs": lambda x: x["source_docs"]
+    })
+)
+
+#formatt result so it prints the source at the end
+def format_response(result):
+  response = result["response"]
+  sources = {doc.metadata.get("source", "Unknown") for doc in result["source_docs"]}
+  response_with_sources = f"{response}\n\nSources: {', '.join(sources)}"
+  return response_with_sources
+    
+  </code></pre>
+</body>
   
   </body>
     

@@ -198,16 +198,22 @@ def generate_responses(model, tokenizer, prompts, max_new_tokens=100):
     return responses
 
 
-
-base_model, base_tokenizer = FastLanguageModel.from_pretrained(
+model, tokenizer = FastLanguageModel.from_pretrained(
     model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
     max_seq_length = 2048,
     dtype = None,
     load_in_4bit = True,
+   # use_flash_attention_2 = True  # This may require Triton and A100
 )
 
-baseline_outputs = generate_responses(base_model, base_tokenizer, formatted_prompts)
-
+# Add LoRA adapter to enable fine-tuning
+model = FastLanguageModel.get_peft_model(
+    model,
+    r=16,
+    lora_alpha=32,
+    lora_dropout=0.05,
+    bias="none"
+)
 
 def to_text(example):
     return {"text": f"{example['prompt']}\n{example['output']}"}
@@ -227,7 +233,7 @@ tokenized_train = train_data.map(tokenize, remove_columns=train_data.column_name
 
 val_data = small_dataset["validation"].map(to_text)
 tokenized_val = val_data.map(tokenize, remove_columns=val_data.column_names)
-
+    
  </code></pre>
 </body>
 

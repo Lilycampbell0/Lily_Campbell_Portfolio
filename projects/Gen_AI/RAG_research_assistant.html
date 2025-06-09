@@ -65,9 +65,22 @@
       <li> At query time, these retrieved texts are then passed as context to GPT-4 via LangChain, enabling the model to generate informed and grounded answers based on the research papers </li>
       <li> The sources of chunks are stored so that the article and page number of the retrieved information can be cited</li>
     </ul>
+    <h2> Example Results from uploading: </h2> 
+    <p> Papers Uploaded: Retrieval Augmented Generation or Long-Context LLMs? A Comprehensive Study and Hybrid Approach (Zhouwan et al. 2024) and Searching for Best Practices in Retrieval-Augmented
+Generation (Wang et al. 2024)</p>
+    <ul>
+      <li> QUery: "How does multimodal retrieval enhance the capabilities of RAG?" 
+         <ul> 
+           <li> Response: Multimodal retrieval enhances the capabilities of RAG by incorporating text2image and image2text retrieval, allowing for more efficient and accurate handling of visual inputs and multimodal content generation. This approach ensures groundedness by providing information from verified multimodal materials, reducing the risk of inaccuracies compared to on-the-fly generation. Additionally, it improves efficiency by leveraging existing stored materials, speeding up processes like image generation when relevant descriptions are available. 
+Sources: wang_paper.pdf</li>
+           
+         </ul>
+      </li>
+      
+    </ul>
    
-     <h2> Highlighted Code Sections: </h2>
-    
+   
+    <h2> Highlighted Code Sections: </h2>
   <head>
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">

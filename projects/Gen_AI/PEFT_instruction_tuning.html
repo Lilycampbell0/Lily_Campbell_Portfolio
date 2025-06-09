@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../../styles.css">
-  <title>CNN vs. ViT for Car Brand Classification</title>
+  <title>Instruction Fine tuning PEFT</title>
 </head>
 <body>
   <header>
-    <h1>CNN vs. ViT for Car Brand Classification</h1>
+    <h1>Instruction Fine tuning PEFT</h1>
 
   <nav>
   <ul class="tabs">
@@ -58,46 +58,33 @@
   
   <main>
     <h2>   Project Goal: </h2> 
-    <p>Classify images of cars by brand, and determine whether a CNN or ViT model performs better on this task</p>
-    <h2>   Applications: </h2> 
-      <ul> 
-        <li>Law enforcement - Many scenarios when license plates are not visible or not readable to a camera, but information around car type would be useful </li>
-        <li>Finding lost cars - Could be helpful for drones to identify missing or stolen parked cars </li>
-      </ul>
-
-     <h2>   Key Literature: </h2> 
-    <dl>
-      <dt>An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale, by Dosovitskiy et al., ICLR 2021</dt>
-        <dd>- “Vision Transformer (ViT) attains excellent results compared to state-of-the-art convolutional networks while requiring substantially fewer computational resources to train”</dd>
-      <dt>A Convnet for the 2020s, Liu et al., Conference on Computer Vision and Pattern Recognition 2022</dt>
-        <dd>- “Surprisingly, ConvNeXts, constructed entirely from standard ConvNet modules, compete favorably with Transformers in terms of accuracy, scalability and robustness across all major benchmarks.”</dd>
-    </dl>
+    <p>Fine-tune a base LLama model (TinyLlama 1.1B) to follow human-written instructions. This aims to enhance the model's ability to generate contextually appropriate responses based on given prompts. 
+     
    <h2>    Dataset: </h2> 
-      <p> 1,000 images scraped from google for 8 car brands, then limited to images that are at least 4 KB to filter out low quality or unapplicable images from the scrape. </p>
-
-    <img src="vit_cnn_files/img_cars.jpg" alt="images of cars from project" width="1100" height="200">
-    
+      <p>  The Dolly 15K dataset (https://huggingface.co/datasets/databricks/databricks-dolly-15k) comprises 15,000 high-quality, human-generated instruction-response pairs. Fine-tuning on dataset enables the model to better understand and execute a variety of instructions, ranging from question-answering to summarization. </p> </p>
+  
+    <h2>    Relevant Literature & Resources </h2> 
+      <ol>
+    <li> LoRA: Low-Rank Adaptation of Large Language Models  - "We propose Low-Rank Adaptation, or LoRA, which freezes the pre-trained model weights and injects trainable rank decomposition matrices into each layer of the Transformer architecture, greatly reducing the number of trainable parameters for downstream tasks - https://arxiv.org/abs/2106.09685" </li>
+    <li> Finetuning LLMs using LoRA - "LoRA is an improved finetuning method where instead of finetuning all the weights that constitute the weight matrix (W) of the pre-trained large language model, two smaller matrices (A and B) that approximate the update to the matrix are fine-tuned." - https://anirbansen2709.medium.com/finetuning-llms-using-lora-77fb02cbbc48 </li>
+    </ol>
+  
   <h2>   Modeling Approach: </h2>
     <ol>
-    <li> CNN and ViT without transfer learning to serve as baselines for comparison </li>
+    <li> Fine tune using the Dolly 15k dataset using LORA (Low-Rank Adaptation)  </li>
     <li> CNN with transfer learning using the Inception ResNet V2 pre-trained model </li>
     <li> Vision Transformer with transfer learning using Google’s pretrained VIT model (google/vit-base-patch16-224) </li>
     </ol>
-<h2> Results: </h2>
+
+<h2> Example Results: </h2>
    <ul>  
-     <li> ViT with transfer learning: 76% Test Accuracy </li>
+     <li> Prompt: Explain photosynthesis. 
+           Response: Photosynthesis is the process by which plants and other organisms convert carbon dioxide into glucose (sugar) using sunlight as energy. It is a complex process that involves the conversion of carbon dioxide into glucose through the production of ATP (adenosine triphosphate) and NADPH (nicotinamide adenine dinucleotide phosphate).
+       The process begins with the absorption of carbon dioxide by the plant through the leaves. The absorbed carbon dioxide is then converted into glucose through the process of photosynthesis. The glucose is then used by the plant to produce energy through the process of resp </li>
      <li> CNN with transfer learning: 75% Test Accuracy </li>
      <li> CNN without transfer learning: 24% Test Accuracy </li>
    </ul>  
-  <img src="vit_cnn_files/cnn_vit_confusion.jpg" alt="confusion matricies cnn vit" width="800" height="500">
 
-<p> I observed similar training time for each transfer learning model, and almost the same level of accuracy achieved.
-This suggests that ViT models may be a viable alternative to CNNs for the task of car brand classification. 
-</p>
-    
-<highlight_button> 
-  <a href="vit_cnn_files/cnn_vit_car_brand_classification_header.html"> Full Code for This Project </a>
-</highlight_button>  
     
 <h2> Highlighted Code Sections: </h2>
     

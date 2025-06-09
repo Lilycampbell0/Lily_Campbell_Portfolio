@@ -72,12 +72,12 @@
     </ol>
   
   <h2>   Modeling Approach: </h2>
-    <ol>
-    <li> Fine tune using the Dolly 15k dataset using LORA (Low-Rank Adaptation).  </li>
-    <li> Utilize Unsloth to facilitate fine tuning </li>
-    <li> Generate responses for a set of test instructions using both the pre-trained and fine-tuned models to evaluate results</li>
+    <ul>
+    <li> Used LORA (Low-Rank Adaptation) to limit the parameters fine-tuned and prevent catasrophic forgetting </li>
+    <li> Utilized Unsloth to facilitate LoRA fine tuning with low memory availability </li>
+    <li> Generated responses for a set of test instructions using both the pre-trained and fine-tuned models to evaluate results</li>
 
-    </ol>
+    </ul>
 
   <h2> Example Results: </h2>
    <ul>  

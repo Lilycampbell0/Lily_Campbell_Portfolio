@@ -146,7 +146,7 @@ from torch.utils.data import DataLoader
 from functools import partial
 from unsloth import FastLanguageModel
 
-## Dataset Preparation
+# Dataset Preparation
 dataset = load_dataset("databricks/databricks-dolly-15k")
 def format_dolly(example):
     if example['context']:
@@ -180,30 +180,11 @@ split_dataset = DatasetDict({
 <body>
   <pre><code class="python">
 
-def generate_responses(model, tokenizer, prompts, max_new_tokens=100):
-    model.eval()
-    responses = []
-    for prompt in prompts:
-        inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
-        with torch.no_grad():
-            outputs = model.generate(
-                **inputs,
-                max_new_tokens=max_new_tokens,
-                do_sample=False,
-                pad_token_id=tokenizer.eos_token_id,
-                temperature=0.7,
-            )
-        decoded = tokenizer.decode(outputs[0], skip_special_tokens=True)
-        responses.append(decoded[len(prompt):].strip())
-    return responses
-
-
 model, tokenizer = FastLanguageModel.from_pretrained(
     model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
     max_seq_length = 2048,
     dtype = None,
-    load_in_4bit = True,
-   # use_flash_attention_2 = True  # This may require Triton and A100
+    load_in_4bit = True
 )
 
 # Add LoRA adapter to enable fine-tuning
@@ -252,33 +233,6 @@ tokenized_val = val_data.map(tokenize, remove_columns=val_data.column_names)
     from transformers import TrainerCallback
 import matplotlib.pyplot as plt
 
-class LossPlotCallback(TrainerCallback):
-    def __init__(self):
-        self.train_loss = []
-        self.eval_loss = []
-
-    def on_log(self, args, state, control, logs=None, **kwargs):
-        if "loss" in logs:
-            self.train_loss.append((state.epoch, logs["loss"]))
-        if "eval_loss" in logs:
-            self.eval_loss.append((state.epoch, logs["eval_loss"]))
-
-    def on_train_end(self, args, state, control, **kwargs):
-        train_epochs, train_losses = zip(*self.train_loss)
-        plt.figure(figsize=(8, 5))
-        plt.plot(train_epochs, train_losses, label="Train Loss")
-        if self.eval_loss:
-            eval_epochs, eval_losses = zip(*self.eval_loss)
-            plt.plot(eval_epochs, eval_losses, label="Validation Loss")
-        plt.xlabel("Epoch")
-        plt.ylabel("Loss")
-        plt.title("Training and Validation Loss")
-        plt.legend()
-        plt.grid(True)
-        plt.tight_layout()
-        plt.show()
-
-    from transformers import TrainingArguments
 
 training_args = TrainingArguments(
     output_dir = "/content/drive/MyDrive/genai/tinyllama-dolly-finetuned",
@@ -307,6 +261,24 @@ trainer3 = SFTTrainer(
 )
 
 trainer3.train()
+
+def generate_responses(model, tokenizer, prompts, max_new_tokens=100):
+    model.eval()
+    responses = []
+    for prompt in prompts:
+        inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+        with torch.no_grad():
+            outputs = model.generate(
+                **inputs,
+                max_new_tokens=max_new_tokens,
+                do_sample=False,
+                pad_token_id=tokenizer.eos_token_id,
+                temperature=0.7,
+            )
+        decoded = tokenizer.decode(outputs[0], skip_special_tokens=True)
+        responses.append(decoded[len(prompt):].strip())
+    return responses
+
 
 
   </code></pre>

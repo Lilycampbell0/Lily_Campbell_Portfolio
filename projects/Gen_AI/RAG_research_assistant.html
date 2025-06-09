@@ -56,11 +56,17 @@
 </header>
  <main>
     <h2>   Project Goal: </h2> 
-    <p>Fine-tune a base LLama model (TinyLlama 1.1B) to follow human-written instructions. This aims to enhance the model's ability to generate contextually appropriate responses based on given prompts. </p>
-     
-   <h2>    Dataset: </h2> 
-      <p>  The Dolly 15K dataset (https://huggingface.co/datasets/databricks/databricks-dolly-15k) comprises 15,000 high-quality, human-generated instruction-response pairs. Fine-tuning on dataset enables the model to better understand and execute a variety of instructions, ranging from question-answering to summarization. See instruction data examples below.</p> 
-
+    <p> This work seeks to augment a LLM to assist with learning the salient points in research papers. Reading research papers can be time intensive, so using a chatbot that can sumarize and respond to questions about a paper can help to reduce the time necessary to keep up to date on AI research developments. </p>
+    <h2>   Approach: </h2>   
+    <p> I utilized a RAG system to feed context from research papers to GPT 4.0:</p>
+    <ul>
+      <li> Collected and preprocessed research papers by chunking their content into manageable text segments </li>
+      <li> These chunks were then embedded using OpenAI embeddings to capture semantic meaning </li>
+      <li> The resulting vectors are stored in a vector database such as Chroma for efficient similarity search </li>
+      <li> At query time, these retrieved texts are then passed as context to GPT-4 via LangChain, enabling the model to generate informed and grounded answers based on the research papers </li>
+      <li> The sources of chunks are stored so that the article and page number of the retrieved information can be cited</li>
+    </ul>
+  
   </body>
     
   </main>

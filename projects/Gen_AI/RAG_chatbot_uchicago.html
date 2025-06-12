@@ -1,1 +1,64 @@
-evdcwd
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../styles.css">
+  <title>RAG Chatbot for Uchicago Admissions</title>
+</head>
+<body>
+  <header>
+    <h1>RAG Chatbot for Uchicago Admissions</h1>
+
+  <nav>
+  <ul class="tabs">
+    
+    <li class="dropdown">
+      <a href="../../index.html">Home</a>
+    </li>
+    <li class="dropdown">
+      <a href="#">Generative AI </a>
+      <ul class="dropdown-content">
+        <li><a href="../Gen_AI/RAG_research_assistant.html">RAG Research Assistant</a></li>
+        <li><a href="../Gen_AI/PEFT_instruction_tuning.html">Instruction Tuning with PEFT </a></li>
+      </ul>
+    </li>
+  
+    <li class="dropdown">
+      <a href="#">Computer Vision </a>
+      <ul class="dropdown-content">
+        <li><a href="../Computer_Vision_Projects/cnn_vit_car_brand.html">CNN vs ViT</a></li>
+        <li><a href="../Computer_Vision_Projects/TinySwin_food101_page.html">tSwin for Food Images</a></li>
+        <li><a href="../Computer_Vision_Projects/yoga_pose_page.html">Yoga Pose Identifiaction</a></li>
+        <li><a href="../Computer_Vision_Projects/Argonne_Labs_Bird_Detection.html">Bird Detection</a></li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a href="#">Big Data </a>
+      <ul class="dropdown-content">
+        <li><a href="../Big_Data_Projects/Big_Data_Github_Analysis.html">Github Similarity Analysis</a></li>
+        <li><a href="../Big_Data_Projects/big_data_project.html">project2 big data</a></li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a href="#">Regression & Clustering</a>
+      <ul class="dropdown-content">
+        <li><a href="../Regression_Projects/Home_price_regression.html">Home Price Regression Analysis</a></li>
+        <li><a href="../Regression_Projects/walmart_timeseries.html">Walmart Sales Forecasting</a></li>
+      </ul>
+    </li>
+        <li class="dropdown">
+      <a href="../resume.html">Resume</a>
+    </li>
+    
+  </ul>
+</nav>
+</header>
+
+  
+  <main>
+    <h2>   Project Goal: </h2> 
+    <p>Fine-tune a base LLama model (TinyLlama 1.1B) to follow human-written instructions. This aims to enhance the model's ability to generate contextually appropriate responses based on given prompts. </p>
+     
+   <h2>    Dataset: </h2> 
+      <p>  The Dolly 15K dataset (https://huggingface.co/datasets/databricks/databricks-dolly-15k) comprises 15,000 high-quality, human-generated instruction-response pairs. Fine-tuning on dataset enables the model to better understand and execute a variety of instructions, ranging from question-answering to summarization. See instruction data examples below.</p> 

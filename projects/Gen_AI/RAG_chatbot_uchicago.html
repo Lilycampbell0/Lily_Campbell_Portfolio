@@ -58,14 +58,16 @@
 
   
   <main>
-    <h2>   Project Goal: </h2> 
-    <p> Create a chatbot to assist perspective students in navigating the graduate admissions process at Uchicago that incorporates information from the student website.  </p>
+    <h2> Project Goal: </h2> 
+    <p> Create a chatbot to assist perspective students in navigating the MS Applied Data Science admissions process at Uchicago that incorporates information from the student website.  </p>
      
-   <h2>    Dataset: </h2> 
-      <p>  The Dolly 15K dataset (https://huggingface.co/datasets/databricks/databricks-dolly-15k) comprises 15,000 high-quality, human-generated instruction-response pairs. Fine-tuning on dataset enables the model to better understand and execute a variety of instructions, ranging from question-answering to summarization. See instruction data examples below.</p> 
+   <h2> Approach: </h2> 
+      <p> I used Playwright to scrape the program and admissions websites, then chunked and embedded the data using OpenAI embeddings. I stored the embeddings in ChromaDB and implemented the retrieval-augmented generation pipeline using LangChain with GPT-4.0 as the language model. The chatbot provides detailed, context-aware answers to user questions based on official admissions content.  </p> 
 
-
-      </body>
+   <h2> Evaluation: </h2> 
+    <p> I evaluated the system using RAGAS for quantitative performance metrics and conducted extensive human testing to ensure high-quality, reliable responses.</p>
+    
+</body>
     
   </main>
 </body>

@@ -73,7 +73,7 @@
    <p>CurrenSee follows an intuitive end-to-end workflow that transforms meeting notifications into actionable intelligence:</p>
     <img src="images_for_genai/system_overview.png" alt="system overview" width="500" height="900"  > 
 
-   <p> 1. Meeting Notification → 2. Agentic Data Retrieval → 3. User Preference Response Tuning → 4. Report Generation → 5. User Feedback </p>
+   <p> <b>1. Meeting Notification → 2. Agentic Data Retrieval → 3. User Preference Response Tuning → 4. Report Generation → 5. User Feedback </b></p>
   <p>The system begins when a meeting invitation is received, automatically triggering our multi-agent pipeline. Within minutes, advisors receive comprehensive reports tailored to their preferences and client context.</p>
 
   <h2> System Architecture: </h2> 
@@ -85,7 +85,7 @@
      <li> Pillar 3: Robust Guardrails - Enterprise-grade security ensuring data privacy and regulatory compliance </li>
    </ul>
 
-  <h3>1. Data Integration: </h3> 
+  <h3>1. Internal and External Data Integration: </h3> 
     <p> Currensee combines internal data sources -such as past emails, crm records and financial holdings databases - and external news sources in its report. The report pulls the salient information from across the sources, saving the user time of having to look through each source themselves.</p>
     <img src="images_for_genai/data_integration.png" alt="data integration" width="500" height="900"  > 
      <ul> 
@@ -94,11 +94,32 @@
        <li>Currensee provides tracing to data sources referenced in the report so the user can deep dive on a certain article. This provides transparency to the report’s findings. </li>
     </ul>
 
-   <h3> 2. Dynamic Learning & Personalization</h3> 
+  <h3> 2. Dynamic Learning </h3> 
     <img src="images_for_genai/dynamic_learning.png" alt="dynamic learning" width="500" height="900"  > 
-    <p>For each meeting that the user has, Currensee first determines the Meeting Focus that will be discussed in the meeting based upon the meeting description and recent past emails. The Meeting Focus could range from an Annual Financial Review, Risk Analysis, Sustainability, to Relationship Building. Based on the Meeting Focus, Currensee curates the most relevant information from each data source to include in its report. In addition, Currensee incorporates User Interactions with the report to learn which sections are most useful to the user for the topic.</p>
+    <p>For each meeting that the user has, Currensee first determines the <b>Meeting Focus</b> that will be discussed in the meeting based upon the meeting description and recent past emails. The Meeting Focus could range from an Annual Financial Review, Risk Analysis, Sustainability, to Relationship Building. Based on the Meeting Focus, Currensee curates the most relevant information from each data source to include in its report. </p>
+      
+    <p> In addition, Currensee incorporates <b>User Interactions</b> with the report to learn which sections are most useful to the user for the topic. For example, if a user expands the client questions section when reading a Sustainability focused report, or types ‘I want more news about interest rates’ while reading a Risk focused report, Currensee will remember this for the next time the topic comes up. Thus each time currensee generates a report and gets feedback, it further learns and tunes to the user’s preferences. </p>
      
+  <h3> 3. Robust Guardrails </h3> 
+    <p>CurrenSee implements a comprehensive two-pronged security approach:</p>
 
+<p><b>Input Security:</b></p>
+<ul>
+  <li>SQL injection prevention and input sanitization</li>
+  <li>User boundary enforcement preventing data cross-contamination</li>
+  <li>Client boundary controls ensuring data segregation</li>
+  <li>Comprehensive audit logging for compliance</li>
+</ul>
+    
+<p><b>Output Security (4-Stage Validation Pipeline):</b></p>
+<ul>
+  <li>Stage 1: PII Detection with 99.5% accuracy using advanced pattern recognition</li>
+  <li>Stage 2: Regulatory Compliance checking against financial industry standards</li>
+  <li>Stage 3: Hallucination Detection ensuring factual accuracy of AI-generated content</li>
+  <li>Stage 4: Professional Tone Verification maintaining appropriate business communication standards</li>
+</ul>  
+    
+    
 
 
 

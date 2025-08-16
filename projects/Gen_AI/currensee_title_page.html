@@ -80,9 +80,9 @@
    <p> CurrenSee is built on three foundational pillars that ensure reliability, personalization, and security:</p>
     <img src="images_for_genai/three_pillars.png" alt="three pillars" width="500" height="900"  > 
      <ul> 
-     <li> Pillar 1: Internal and External Data Integration - Seamless connection to internal (CRM, Outlook) and external (financial news APIs) data sources</li>
-     <li> Pillar 2: Dynamic Learning - Adaptive AI that learns from user feedback to improve report quality over time</li>
-     <li> Pillar 3: Robust Guardrails - Enterprise-grade security ensuring data privacy and regulatory compliance </li>
+     <li> <b>Pillar 1: Internal and External Data Integration</b> - Seamless connection to internal (CRM, Outlook) and external (financial news APIs) data sources</li>
+     <li> <b>Pillar 2: Dynamic Learning</b> - Adaptive AI that learns from user feedback to improve report quality over time</li>
+     <li> <b>Pillar 3: Robust Guardrails</b> - Enterprise-grade security ensuring data privacy and regulatory compliance </li>
    </ul>
 
   <h3>1. Internal and External Data Integration: </h3> 
@@ -103,25 +103,38 @@
   <h3> 3. Robust Guardrails </h3> 
     <p>CurrenSee implements a comprehensive two-pronged security approach:</p>
 
-<p><b>Input Security:</b></p>
-<ul>
-  <li>SQL injection prevention and input sanitization</li>
-  <li>User boundary enforcement preventing data cross-contamination</li>
-  <li>Client boundary controls ensuring data segregation</li>
-  <li>Comprehensive audit logging for compliance</li>
-</ul>
+    <p><b>Input Security:</b></p>
+    <ul>
+      <li>SQL injection prevention and input sanitization</li>
+      <li>User boundary enforcement preventing data cross-contamination</li>
+      <li>Client boundary controls ensuring data segregation</li>
+      <li>Comprehensive audit logging for compliance</li>
+    </ul>
+        
+    <p><b>Output Security (4-Stage Validation Pipeline):</b></p>
+    <ul>
+      <li>Stage 1: PII Detection with 99.5% accuracy using advanced pattern recognition</li>
+      <li>Stage 2: Regulatory Compliance checking against financial industry standards</li>
+      <li>Stage 3: Hallucination Detection ensuring factual accuracy of AI-generated content</li>
+      <li>Stage 4: Professional Tone Verification maintaining appropriate business communication standards</li>
+    </ul>  
     
-<p><b>Output Security (4-Stage Validation Pipeline):</b></p>
-<ul>
-  <li>Stage 1: PII Detection with 99.5% accuracy using advanced pattern recognition</li>
-  <li>Stage 2: Regulatory Compliance checking against financial industry standards</li>
-  <li>Stage 3: Hallucination Detection ensuring factual accuracy of AI-generated content</li>
-  <li>Stage 4: Professional Tone Verification maintaining appropriate business communication standards</li>
-</ul>  
-    
-    
+  <h3> Architecture Outline: </h3>  
+    <img src="images_for_genai/system_architecture.png" alt="dynamic learning" width="500" height="900"  > 
+    <p> Please see full github repo for complete architecture.</p>
 
 
+<h2> Team & Acknowledgements: </h2> 
+    <ul>
+      <li> <b>Lily Campbell:</b> Led product strategy, Dynamic Learning and data integration</li> 
+      <li> <b>Xiaojing Fang:</b> Designed the intuitive interface and user interaction flows </li> 
+      <li> <b>Gretchen Forbush:</b> Designed the multi-agent AI architecture and LLM integrations</li>
+      <li> <b>Stepan Ochodek:</b> Provided industry expertise, financial news integration, and compliance requirements </li>
+      <li> <b>Alen Pavlovic:</b> Led technical architecture and system integration</li>
+
+    </ul>
+
+    Project sponsored by the University of Chicago Data Science Institute. 
 
     
 </main>

@@ -102,7 +102,7 @@ from mcp import StdioServerParameters
     # settings includes the model name
     name = "workspace_assistant"
     description = """Provide calendar and task management assistance. You can list upcoming events, check for conflicts, and create events.""" 
-    # Part 1: Write your system instruction (must be fairly detailed >100 chars)
+
     # Get today's date in the user's timezone
     local_tz = ZoneInfo(settings.timezone)
     today = datetime.now(local_tz).strftime("%A, %B %d, %Y")
@@ -131,7 +131,7 @@ from mcp import StdioServerParameters
             # raw function -> wrap
             tools.append(FunctionTool(t))
 
-    # Part 2: add MCP toolset (GitHub) if available
+    # MCP toolset 
     try:
         for t in mcp_tools:
             tools.append(t)

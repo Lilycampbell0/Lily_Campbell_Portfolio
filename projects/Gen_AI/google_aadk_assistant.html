@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../styles.css">
+  <title>Google ADK Workspace Assistant</title>
+</head>
+<body>
+  <header>
+    <h1>Google ADK Workspace Assistent</h1>
+
+  <nav>
+  <ul class="tabs">
+    
+    <li class="dropdown">
+      <a href="../../index.html">Home</a>
+    </li>
+    <li class="dropdown">
+      <a href="#">Generative AI </a>
+      <ul class="dropdown-content">
+        <li><a href ="../Gen_AI/currensee_title_page.html">Currensee - AI Meeting Preparation Assistant</a></li>
+        <li><a href="../Gen_AI/RAG_research_assistant.html">RAG Research Assistant</a></li>
+        <li><a href="../Gen_AI/PEFT_instruction_tuning.html">Instruction Tuning with PEFT </a></li>
+        <li><a href="../Gen_AI/RAG_chatbot_uchicago.html">RAG Chatbot for UChicago Admissions</a></li>
+        <li><a href="../Gen_AI/google_adk_assistant.html">Agentic Assistant for Workspace Management</a></li>
+      </ul>
+    </li>
+  
+    <li class="dropdown">
+      <a href="#">Computer Vision </a>
+      <ul class="dropdown-content">
+        <li><a href="../Computer_Vision_Projects/cnn_vit_car_brand.html">CNN vs ViT</a></li>
+        <li><a href="../Computer_Vision_Projects/TinySwin_food101_page.html">tSwin for Food Images</a></li>
+        <li><a href="../Computer_Vision_Projects/yoga_pose_page.html">Yoga Pose Identifiaction</a></li>
+        <li><a href="../Computer_Vision_Projects/Argonne_Labs_Bird_Detection.html">Bird Detection</a></li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a href="#">Big Data </a>
+      <ul class="dropdown-content">
+        <li><a href="../Big_Data_Projects/Big_Data_Github_Analysis.html">Github Similarity Analysis</a></li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a href="#">Regression & Clustering</a>
+      <ul class="dropdown-content">
+        <li><a href="../Regression_Projects/Home_price_regression.html">Home Price Regression Analysis</a></li>
+        <li><a href="../Regression_Projects/walmart_timeseries.html">Walmart Sales Forecasting</a></li>
+      </ul>
+    </li>
+        <li class="dropdown">
+      <a href="../resume.html">Resume</a>
+    </li>
+    
+  </ul>
+</nav>
+</header>
+ <main>
+    <h2>   Project Goal: </h2> 
+    <p> I built an agentic personal productivity assistant using the Google Agent Development Kit (ADK) that integrates multiple tools to manage tasks and priorities. 
+      The assistant can check my Google Calendar for scheduling conflicts, create or update events, and coordinate meeting times automatically. It also connects to GitHub via MCP tools, allowing the agent to inspect my repositories and identify current work priorities based on active projects and recent activity. By combining tool-enabled agents with external APIs, the system demonstrates how LLM-driven agents can orchestrate real-world workflows across calendars, development platforms, and productivity tools to streamline planning and task management. </p>
+
+    <h2> Highlighted Code Sections: </h2>
+  <head>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+  <pre><code class="python">
+from google.adk.agents import LlmAgent
+from google.adk.tools.mcp_tool import McpToolset
+from google.adk.tools.mcp_tool.mcp_session_manager import StdioConnectionParams
+from mcp import StdioServerParameters
+
+ </code></pre>
+</body>
+
+
+<head>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+  <pre><code class="python">
+# Define Agent
+    def create_agent() -> LlmAgent:
+    """Create the Workspace Assistant agent."""
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    
+    settings = Settings()
+    if not settings.validate():
+        raise ValueError("Configuration validation failed. Check your settings.")
+    model = settings.model_name
+    # settings includes the model name
+    name = "workspace_assistant"
+    description = """Provide calendar and task management assistance. You can list upcoming events, check for conflicts, and create events.""" 
+    # Part 1: Write your system instruction (must be fairly detailed >100 chars)
+    # Get today's date in the user's timezone
+    local_tz = ZoneInfo(settings.timezone)
+    today = datetime.now(local_tz).strftime("%A, %B %d, %Y")
+    git_username = settings.githubusername
+    
+    instruction = (
+        "You are a Google Workspace assistant that helps users manage their calendars and tasks. "
+        f"Today's date is {today}."
+        "Use the provided tools to list upcoming events, create events, and detect overlapping meetings. "
+        "Use create_event to add new events to the calander. When creating events, ensure times are interpreted in the user's configured timezone."
+        f"Use list_upcoming_events to list what events are on the calendar. When asked for upcoming events, provide a short list of events, starting with those on {today} and then looking a few weeks ahead. Dont show past events unless the user specifically asks for them. "
+        "Use check_conflicts to find scheduling conflicts or overlapping events. "
+        "Use mcp tools to interact with GitHub if the user asks for it. Only use MCP tools if the user query is related to GitHub or repositories. "
+        f"When the user asks to questions about their own repositories, examine the user {git_username}"
+        
+        "Always use the tools when relevant, and provide clear responses to the user."
+    )
+
+    # Wrap raw functions (from calendar_tools) into FunctionTool instances if needed
+    tools = []
+    for t in calendar_tools:
+        if hasattr(t, 'func') or isinstance(t, FunctionTool):
+            # already a FunctionTool wrapper or has .func attribute
+            tools.append(t if isinstance(t, FunctionTool) else FunctionTool(t))
+        else:
+            # raw function -> wrap
+            tools.append(FunctionTool(t))
+
+    # Part 2: add MCP toolset (GitHub) if available
+    try:
+        for t in mcp_tools:
+            tools.append(t)
+    except Exception as e:
+        # environment may not be configured yet; ignore gracefully
+        if settings.debug_mode:
+            print(f"MCP toolset not added: {e}")
+    
+    root = LlmAgent(
+        name=name,
+        model=model,
+        description=description,
+        instruction=instruction,
+        tools=tools,
+    )
+    return RunnableAgent(root)
+ </code></pre>
+</body>
+
+</body>
+  
+  </body>
+    
+  </main>
+</body>
+</html>
